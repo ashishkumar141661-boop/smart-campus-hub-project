@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Smart Campus Hub</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.12);
+        }
+
+        /* Left Side */
+
+        .login-intro {
+            padding: 45px;
+            background: #eff6ff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 45px;
+        }
+
+        .brand-mark {
+            background: #1d4ed8;
+            color: white;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .brand-copy {
+            color: #0f172a;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .brand-copy small {
+            display: block;
+            font-size: 10px;
+            color: #2563eb;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .wire-label {
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .login-intro h1 {
+            font-size: 38px;
+            line-height: 1.25;
+            color: #0f172a;
+            margin: 15px 0;
+        }
+
+        .login-intro h1 span {
+            color: #2563eb;
+        }
+
+        .login-intro p {
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        .login-art {
+            margin-top: 35px;
+            min-height: 180px;
+            border-radius: 12px;
+            background: #1d4ed8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .login-art div {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .login-art span {
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        /* Right Side */
+
+        .login-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 45px;
+        }
+
+        .form-panel {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .form-panel h2 {
+            color: #0f172a;
+            font-size: 30px;
+            margin: 12px 0;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .field {
+            margin-top: 22px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            background: #ffffff;
+        }
+
+        .input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box .input {
+            padding-right: 65px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #1d4ed8;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .button {
+            width: 100%;
+            display: block;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #1d4ed8;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #1e3a8a;
+        }
+
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #1d4ed8;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .signup-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 11px 20px;
+            border: 1px solid #1d4ed8;
+            border-radius: 7px;
+            background: #ffffff;
+            color: #1d4ed8;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .signup-link a:hover {
+            background: #eff6ff;
+        }
+
+        .demo-note {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+            .login-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .login-intro {
+                padding: 28px;
+            }
+
+            .brand {
+                margin-bottom: 25px;
+            }
+
+            .login-intro h1 {
+                font-size: 30px;
+            }
+
+            .login-art {
+                min-height: 120px;
+                margin-top: 22px;
+            }
+
+            .login-form {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-layout">
+
+    <!-- Welcome Section -->
+
+    <section class="login-intro">
+
+        <div class="brand">
+            <span class="brand-mark">SC</span>
+
+            <span class="brand-copy">
+                SMART CAMPUS HUB
+                <small>STUDENT PORTAL</small>
+            </span>
+        </div>
+
+        <span class="wire-label">WELCOME BACK</span>
+
+        <h1>Your Campus,<br>
+            <span>Your Future.</span>
+        </h1>
+
+        <p>
+            Sign in to access your study notes, assignments,
+            attendance, class timetable and campus events
+            from one convenient place.
+        </p>
+
+        <div class="login-art">
+            <div>
+                LEARN • GROW • SUCCEED
+                <span>YOUR DIGITAL CAMPUS</span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Login Form -->
+
+    <section class="login-form">
+
+        <div class="form-panel">
+
+            <span class="wire-label">STUDENT ACCOUNT</span>
+
+            <h2>Student Login</h2>
+
+            <p class="muted">
+                Enter your university email and password to continue.
+            </p>
+
+            <form id="loginForm">
+
+                <!-- Email Field -->
+
+                <div class="field">
+
+                    <label for="email">University Email</label>
+
+                    <input
+                        class="input"
+                        type="email"
+                        id="email"
+                        value="ashish.kumar141661@marwadiuniversity.ac.in"
+                        placeholder="Enter your university email"
+                        autocomplete="username"
+                        required>
+
+                </div>
+
+                <!-- Password Field -->
+
+                <div class="field">
+
+                    <label for="password">Password</label>
+
+                    <div class="password-box">
+
+                        <input
+                            class="input"
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            minlength="8"
+                            pattern="(?=.*[0-9]).{8,}"
+                            title="Password must be at least 8 characters and contain at least one number."
+                            required>
+
+                        <button
+                            class="toggle-password"
+                            type="button"
+                            id="togglePassword">
+
+                            Show
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- Login Button -->
+
+                <button class="button" type="submit">
+                    Login to Student Hub →
+                </button>
+
+                <!-- Validation Message -->
+
+                <div class="message" id="message" role="status"></div>
+
+            </form>
+
+            <!-- Demo Credentials -->
+
+            <div class="demo-note">
+
+                <strong>Demo Login</strong><br>
+
+                Email:
+                ashish.kumar141661@marwadiuniversity.ac.in<br>
+
+                Password: Ashish@123
+
+            </div>
+
+            <!-- Sign Up Link -->
+
+            <p class="signup-link">
+
+                Don't have an account?<br>
+
+                <a href="student-signup.html">
+                    Sign Up →
+                </a>
+
+            </p>
+
+            <!-- Back Link -->
+
+            <a href="home.html" class="back-link">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+    // Get HTML Elements
+
+    const form = document.getElementById("loginForm");
+
+    const email = document.getElementById("email");
+
+    const password = document.getElementById("password");
+
+    const message = document.getElementById("message");
+
+    const toggle = document.getElementById("togglePassword");
+
+
+    // Fill Email From Sign Up Page
+
+    const signupEmail =
+        new URLSearchParams(window.location.search).get("email");
+
+    if (signupEmail) {
+        email.value = signupEmail;
+    }
+
+
+    // Show / Hide Password
+
+    toggle.addEventListener("click", function () {
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            toggle.textContent = "Hide";
+
+        } else {
+
+            password.type = "password";
+
+            toggle.textContent = "Show";
+
+        }
+
+    });
+
+
+    // Login Form Validation
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        // Get Input Values
+
+        const enteredEmail = email.value.trim().toLowerCase();
+
+        const enteredPassword = password.value;
+
+
+        // Hide Previous Message
+
+        message.style.display = "none";
+
+
+        // Validation 1: Email Format
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(enteredEmail)) {
+
+            message.className = "message";
+
+            message.textContent =
+                "Please enter a valid email address.";
+
+            message.style.display = "block";
+
+            return;
+
+        }
+
+
+        // Validation 2: University Email Domain
+
+        if (!enteredEmail.endsWith("@marwadiuniversity.ac.in")) {
+
+            message.className = "message";
+
+            message.textContent =
+                "Please use your Marwadi University email address.";
+
+            message.style.display = "block";
+
+            return;
+
+        }
+
+
+        // Validation 3: Password Length (Minimum 8 Characters)
+
+        if (enteredPassword.length < 8) {
+
+            message.className = "message";
+
+            message.textContent =
+                "Password must contain at least 8 characters.";
+
+            message.style.display = "block";
+
+            return;
+
+        }
+
+
+        // Demo Account Check
+
+        const demoAccount =
+            enteredEmail ===
+                "ashish.kumar141661@marwadiuniversity.ac.in" &&
+            enteredPassword === "Ashish@123";
+
+
+        // Signup Account Check
+
+        try {
+
+            const accounts = JSON.parse(
+                localStorage.getItem("smartCampusStudentAccounts") || "[]"
+            );
+
+            const signupAccount =
+                Array.isArray(accounts) &&
+                accounts.some(function (account) {
+
+                    return (
+                        account.email === enteredEmail &&
+                        account.password === enteredPassword
+                    );
+
+                });
+
+
+            // Successful Login
+
+            if (demoAccount || signupAccount) {
+
+                message.className = "message success";
+
+                message.textContent =
+                    "Login successful! Opening Student Hub...";
+
+                message.style.display = "block";
+
+
+                // Redirect To Student Dashboard
+
+                setTimeout(function () {
+
+                    window.location.href = "student-dashboard.html";
+
+                }, 700);
+
+                return;
+
+            }
+
+
+            // Incorrect Credentials
+
+            message.className = "message";
+
+            message.textContent =
+                "Incorrect email or password. Please check your details and try again.";
+
+            message.style.display = "block";
+
+
+        } catch (error) {
+
+            // Local Storage Error
+
+            message.className = "message";
+
+            message.textContent =
+                "Unable to check saved accounts in this browser. Please open the pages through a local web server and try again.";
+
+            message.style.display = "block";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

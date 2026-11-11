@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Library - Smart Campus Hub</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            background: #f1f5f9;
+        }
+
+        .side {
+            width: 240px;
+            flex-shrink: 0;
+            background: #172554;
+            color: white;
+            padding: 25px 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .brand-mark {
+            background: #38bdf8;
+            color: #172554;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .brand-copy {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .brand-copy small {
+            display: block;
+            margin-top: 5px;
+            color: #93c5fd;
+            font-size: 10px;
+        }
+
+        .side-nav a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin: 7px 0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .workspace {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        .workspace-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .crumb {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 29px;
+            margin: 0;
+            color: #172554;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .avatar {
+            background: #dbeafe;
+            color: #1d4ed8;
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #1d4ed8, #6366f1);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .welcome h2 {
+            margin: 0 0 10px;
+            font-size: 22px;
+        }
+
+        .welcome p {
+            margin: 0;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #e0e7ff;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 22px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .input,
+        .select {
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: white;
+            color: #334155;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input {
+            width: 260px;
+            max-width: 100%;
+        }
+
+        .input:focus,
+        .select:focus {
+            border-color: #2563eb;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 23px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px #0f172a08;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px #0f172a12;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .purple {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .coral {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .card h3 {
+            color: #172554;
+            font-size: 19px;
+            margin: 18px 0 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            min-height: 44px;
+            margin-bottom: 16px;
+        }
+
+        .line-meta {
+            font-size: 12px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 13px;
+            margin-bottom: 18px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .secondary {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .secondary:hover {
+            background: #dbeafe;
+        }
+
+        .warm {
+            background: #2563eb;
+            color: white;
+        }
+
+        .warm:hover {
+            background: #1d4ed8;
+        }
+
+        .empty {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            color: #64748b;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 750px) {
+            .side {
+                width: 175px;
+                padding: 20px 10px;
+            }
+
+            .workspace {
+                padding: 20px 14px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workspace-top {
+                align-items: flex-start;
+            }
+
+            .input {
+                width: 100%;
+            }
+
+            .toolbar .actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-shell {
+                flex-direction: column;
+            }
+
+            .side {
+                width: 100%;
+            }
+
+            .side-nav {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4px;
+            }
+
+            .brand {
+                margin-bottom: 18px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-shell">
+
+        <aside class="side">
+            <div class="brand">
+                <span class="brand-mark">SC</span>
+                <span class="brand-copy">
+                    SMART CAMPUS
+                    <small>CAMPUS HUB</small>
+                </span>
+            </div>
+
+            <nav class="side-nav">
+                <a href="student-dashboard.html">Overview</a>
+                <a href="attendance.html">Attendance</a>
+                <a href="timetable.html">Timetable</a>
+                <a href="notes.html" class="active">Notes</a>
+                <a href="assignments.html">Assignments</a>
+                <a href="events.html">Events</a>
+                <a href="profile.html">My Profile</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </aside>
+
+        <main class="workspace">
+
+            <div class="workspace-top">
+                <div>
+                    <div class="crumb">Student / Notes</div>
+                    <h1>Notes Library</h1>
+                    <p class="subtitle">
+                        Find your study materials and prepare for your exams.
+                    </p>
+                </div>
+
+                <div class="actions">
+                    <span class="avatar">AK</span>
+                </div>
+            </div>
+
+            <section class="welcome">
+                <h2>Welcome to Your Study Library! 📚</h2>
+                <p>
+                    Access your subject notes, revise important concepts,
+                    and keep your learning materials organized in one place.
+                </p>
+            </section>
+
+            <div class="toolbar">
+                <div class="actions">
+                    <input type="text" class="input" id="searchNotes"
+                        placeholder="Search notes or subjects...">
+
+                    <select class="select" id="subjectFilter">
+                        <option value="all">All Subjects</option>
+                        <option value="java">Java Programming</option>
+                        <option value="dbms">DBMS</option>
+                        <option value="web">Web Technology</option>
+                        <option value="dsa">Data Structures</option>
+                        <option value="communication">Communication</option>
+                    </select>
+                </div>
+
+                <span class="muted" id="noteCount">6 study resources</span>
+            </div>
+
+            <div class="card-grid" id="notesGrid">
+
+                <article class="card" data-subject="java">
+                    <span class="tag green">Java Programming</span>
+                    <h3>Java Programming Notes</h3>
+                    <p>
+                        Java basics, data types, operators, loops,
+                        classes, objects, and constructors.
+                    </p>
+                    <div class="line-meta">
+                        Semester III · PDF Study Material
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" class="button secondary preview-btn"
+                            data-title="Java Programming Notes"
+                            data-description="Topics: Java basics, data types, operators, loops, classes, objects, and constructors.">
+                            Preview
+                        </a>
+                        <button class="button warm download-btn"
+                            data-title="Java Programming Notes"
+                            data-description="Java basics, data types, operators, loops, classes, objects, and constructors.">
+                            Download Notes
+                        </button>
+                    </div>
+                </article>
+
+                <article class="card" data-subject="dbms">
+                    <span class="tag">DBMS</span>
+                    <h3>Database Management System</h3>
+                    <p>
+                        ER diagrams, keys, normalization, SQL queries,
+                        transactions, and ACID properties.
+                    </p>
+                    <div class="line-meta">
+                        Semester III · PDF Study Material
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" class="button secondary preview-btn"
+                            data-title="DBMS Notes"
+                            data-description="Topics: ER diagrams, keys, normalization, SQL queries, transactions, and ACID properties.">
+                            Preview
+                        </a>
+                        <button class="button warm download-btn"
+                            data-title="DBMS Notes"
+                            data-description="ER diagrams, keys, normalization, SQL queries, transactions, and ACID properties.">
+                            Download Notes
+                        </button>
+                    </div>
+                </article>
+
+                <article class="card" data-subject="web">
+                    <span class="tag coral">Web Technology</span>
+                    <h3>HTML, CSS and Bootstrap</h3>
+                    <p>
+                        HTML tags, forms, CSS layouts, responsive design,
+                        Bootstrap components, and navigation bars.
+                    </p>
+                    <div class="line-meta">
+                        Semester III · PDF Study Material
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" class="button secondary preview-btn"
+                            data-title="Web Technology Notes"
+                            data-description="Topics: HTML tags, forms, CSS layouts, responsive design, and Bootstrap components.">
+                            Preview
+                        </a>
+                        <button class="button warm download-btn"
+                            data-title="Web Technology Notes"
+                            data-description="HTML tags, forms, CSS layouts, responsive design, and Bootstrap components.">
+                            Download Notes
+                        </button>
+                    </div>
+                </article>
+
+                <article class="card" data-subject="dsa">
+                    <span class="tag purple">Data Structures</span>
+                    <h3>DSA and Sorting Algorithms</h3>
+                    <p>
+                        Arrays, stacks, queues, linked lists,
+                        searching, bubble sort, and quick sort.
+                    </p>
+                    <div class="line-meta">
+                        Semester III · PDF Study Material
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" class="button secondary preview-btn"
+                            data-title="DSA Notes"
+                            data-description="Topics: Arrays, stacks, queues, linked lists, searching, bubble sort, and quick sort.">
+                            Preview
+                        </a>
+                        <button class="button warm download-btn"
+                            data-title="DSA Notes"
+                            data-description="Arrays, stacks, queues, linked lists, searching, bubble sort, and quick sort.">
+                            Download Notes
+                        </button>
+                    </div>
+                </article>
+
+                <article class="card" data-subject="communication">
+                    <span class="tag green">Communication</span>
+                    <h3>Professional Communication</h3>
+                    <p>
+                        Communication skills, email writing, presentations,
+                        group discussions, and interview preparation.
+                    </p>
+                    <div class="line-meta">
+                        Semester III · PDF Study Material
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" class="button secondary preview-btn"
+                            data-title="Professional Communication"
+                            data-description="Topics: Communication skills, email writing, presentations, group discussions, and interview preparation.">
+                            Preview
+                        </a>
+                        <button class="button warm download-btn"
+                            data-title="Professional Communication"
+                            data-description="Communication skills, email writing, presentations, group discussions, and interview preparation.">
+                            Download Notes
+                        </button>
+                    </div>
+                </article>
+
+                <article class="card" data-subject="java">
+                    <span class="tag">Java Programming</span>
+                    <h3>OOP Concepts in Java</h3>
+                    <p>
+                        Inheritance, polymorphism, encapsulation,
+                        abstraction, interfaces, and exception handling.
+                    </p>
+                    <div class="line-meta">
+                        Semester III · PDF Study Material
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" class="button secondary preview-btn"
+                            data-title="OOP Concepts in Java"
+                            data-description="Topics: Inheritance, polymorphism, encapsulation, abstraction, interfaces, and exception handling.">
+                            Preview
+                        </a>
+                        <button class="button warm download-btn"
+                            data-title="OOP Concepts in Java"
+                            data-description="Inheritance, polymorphism, encapsulation, abstraction, interfaces, and exception handling.">
+                            Download Notes
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="empty" id="emptyMessage">
+                No notes found. Try another search or subject.
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        const searchNotes = document.getElementById("searchNotes");
+        const subjectFilter = document.getElementById("subjectFilter");
+        const cards = document.querySelectorAll(".card");
+        const noteCount = document.getElementById("noteCount");
+        const emptyMessage = document.getElementById("emptyMessage");
+
+        function filterNotes() {
+            const searchText = searchNotes.value.toLowerCase().trim();
+            const selectedSubject = subjectFilter.value;
+            let visibleCount = 0;
+
+            cards.forEach(function (card) {
+                const text = card.innerText.toLowerCase();
+                const subject = card.dataset.subject;
+
+                const matchesSearch = text.includes(searchText);
+                const matchesSubject =
+                    selectedSubject === "all" ||
+                    subject === selectedSubject;
+
+                if (matchesSearch && matchesSubject) {
+                    card.style.display = "block";
+                    visibleCount++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            noteCount.textContent = visibleCount + " study resources";
+            emptyMessage.style.display =
+                visibleCount === 0 ? "block" : "none";
+        }
+
+        searchNotes.addEventListener("input", filterNotes);
+        subjectFilter.addEventListener("change", filterNotes);
+
+        document.querySelectorAll(".preview-btn").forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                alert(
+                    button.dataset.title + "\n\n" +
+                    button.dataset.description +
+                    "\n\nThis is a demo preview. Add your actual notes PDF to view its contents."
+                );
+            });
+        });
+
+        document.querySelectorAll(".download-btn").forEach(function (button) {
+            button.addEventListener("click", function () {
+                const title = button.dataset.title;
+                const description = button.dataset.description;
+
+                const content =
+                    title + "\n\n" +
+                    description +
+                    "\n\nSmart Campus Hub - Study Material";
+
+                const file = new Blob([content], {
+                    type: "text/plain;charset=utf-8"
+                });
+
+                const url = URL.createObjectURL(file);
+                const link = document.createElement("a");
+
+                link.href = url;
+                link.download = title.replace(/[^a-z0-9]/gi, "_") + ".txt";
+                link.click();
+
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+
+</body>
+</html>

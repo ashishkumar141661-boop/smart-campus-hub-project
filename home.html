@@ -1,0 +1,718 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Campus Hub</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}
+
+.browser {
+    max-width: 1200px;
+    margin: 25px auto;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px #cbd5e1;
+}
+
+/* Navbar */
+.public-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-mark {
+    background: #1d4ed8;
+    color: white;
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.brand-copy {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+.brand-copy small {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #2563eb;
+}
+
+.top-links, .actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.button {
+    display: inline-block;
+    background: #1d4ed8;
+    color: white;
+    padding: 10px 17px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: #1e3a8a;
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.public-hero {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    gap: 30px;
+    padding: 65px 6%;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+.public-hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    color: #0f172a;
+    margin-bottom: 20px;
+}
+
+.public-hero h1 span {
+    color: #2563eb;
+}
+
+.public-hero p {
+    color: #475569;
+    margin-bottom: 25px;
+    max-width: 550px;
+}
+
+/* Photo Design */
+.hero-art {
+    width: 100%;
+    max-width: 420px;
+    justify-self: center;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #1d4ed8;
+    border: 4px solid white;
+    box-shadow: 0 18px 40px rgba(9, 23, 70, 0.2);
+    transition: 0.3s;
+}
+
+.hero-art:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 22px 45px rgba(30,64,175,0.28);
+}
+
+.hero-art img {
+    display: block;
+    width: 100%;
+    height: 390px;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+/* Sections */
+.section {
+    padding: 45px 5%;
+}
+
+.section:nth-of-type(even) {
+    background: #f8fafc;
+}
+
+.wire-label {
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin: 12px 0 25px;
+}
+
+.section-head h2 {
+    color: #0f172a;
+    font-size: 27px;
+}
+
+.link {
+    color: #1d4ed8;
+    font-weight: bold;
+}
+
+/* Feature Cards */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.feature {
+    padding: 23px 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    transition: 0.3s;
+}
+
+.feature:hover, .announcement:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px #cbd5e1;
+}
+
+.feature-mark {
+    width: 48px;
+    height: 48px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.feature h3, .announcement h3 {
+    color: #0f172a;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.feature h2 {
+    color: #1d4ed8;
+    font-size: 30px;
+}
+
+.feature p, .announcement p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.feature a, .announcement a {
+    color: #1d4ed8;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Announcements */
+.announcement-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.announcement {
+    border-top: 4px solid #2563eb;
+    transition: 0.3s;
+}
+
+.announcement.warm {
+    border-top-color: #d97706;
+}
+
+.announcement.coral {
+    border-top-color: #dc2626;
+}
+
+.tag {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.tag.green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.tag.coral {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.card p {
+    margin-bottom: 10px;
+}
+
+.card p:last-child {
+    margin-bottom: 0;
+}
+
+.card strong {
+    color: #1e3a8a;
+}
+
+.card small {
+    color: #64748b;
+}
+
+/* Footer */
+.footer {
+    background: #0f172a;
+    color: #cbd5e1;
+    padding: 25px;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .announcement-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .public-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .public-hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 550px) {
+    .browser {
+        margin: 8px;
+    }
+
+    .public-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .top-links {
+        width: 100%;
+    }
+
+    .top-links .button {
+        flex: 1;
+        text-align: center;
+    }
+
+    .public-hero {
+        padding: 35px 22px;
+    }
+
+    .public-hero h1 {
+        font-size: 36px;
+    }
+
+    .section {
+        padding: 30px 20px;
+    }
+
+    .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .feature-grid, .announcement-row {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-art {
+        max-width: 320px;
+    }
+
+    .hero-art img {
+        height: 320px;
+    }
+}
+.photo-caption {
+    text-align: center;
+    padding: 20px 15px;
+    background: #1d4ed8;
+}
+
+.photo-caption h3 {
+    color: white;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.photo-caption p {
+    color: #dbeafe;
+    font-size: 13px;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="browser">
+
+<!-- Navbar -->
+<header class="public-top">
+
+    <div class="brand">
+        <span class="brand-mark">SC</span>
+
+        <span class="brand-copy">
+            SMART CAMPUS
+            <small>CAMPUS HUB</small>
+        </span>
+    </div>
+
+    <nav class="top-links">
+        <a href="student-login.html" class="button">
+            Student Login
+        </a>
+
+        <a href="../adminside/admin-login.html" class="button">
+            Admin Login
+        </a>
+    </nav>
+
+</header>
+
+<main>
+
+<!-- Hero Section -->
+<section class="public-hero">
+
+    <div>
+        <h1>
+            Your Campus,<br>
+            <span>Within Reach.</span>
+        </h1>
+
+        <p>
+            Welcome to Smart Campus Hub! Access your study notes,
+            assignments, attendance, timetable and campus events
+            from one convenient platform.
+        </p>
+
+        <div class="actions">
+            <a href="student-login.html" class="button">
+                Explore Student Hub
+            </a>
+
+            <a href="#features" class="button">
+                Explore Features
+            </a>
+        </div>
+    </div>
+
+    <!-- PHOTO -->
+   <div class="hero-art">
+    <img src="ashish-profile.jpeg"
+         alt="Ashish Kumar">
+
+    <div class="photo-caption">
+        <h3>Designed & Developed by Ashish Kumar</h3>
+        <p>Smart Campus Hub – Connecting Students, Learning & Campus Life.</p>
+    </div>
+</div>
+
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+
+    <span class="wire-label">STUDENT SERVICES</span>
+
+    <div class="section-head">
+        <h2>Everything You Need In One Place.</h2>
+    </div>
+
+    <div class="feature-grid">
+
+        <article class="feature">
+            <div class="feature-mark">📚</div>
+            <h3>Study Notes</h3>
+            <p>Access subject-wise notes and PDF study materials.</p>
+            <a href="notes.html">View Notes →</a>
+        </article>
+
+        <article class="feature">
+            <div class="feature-mark">📝</div>
+            <h3>Assignments</h3>
+            <p>Check assignments, submission dates and pending work.</p>
+            <a href="assignments.html">View Assignments →</a>
+        </article>
+
+        <article class="feature">
+            <div class="feature-mark">📅</div>
+            <h3>Class Timetable</h3>
+            <p>Find your daily lectures and classroom details.</p>
+            <a href="timetable.html">View Timetable →</a>
+        </article>
+
+        <article class="feature">
+            <div class="feature-mark">📊</div>
+            <h3>Attendance</h3>
+            <p>Review attendance records and monitor progress.</p>
+            <a href="attendance.html">Check Attendance →</a>
+        </article>
+
+    </div>
+</section>
+
+<!-- Assignments -->
+<section class="section">
+
+    <div class="section-head">
+        <h2>Upcoming Assignments</h2>
+        <a href="assignments.html" class="link">View All →</a>
+    </div>
+
+    <div class="announcement-row">
+
+        <article class="card announcement">
+            <span class="tag green">Web Development</span>
+            <h3>HTML and CSS Project</h3>
+            <p>Prepare a responsive college website.</p>
+            <p><strong>Due Date:</strong> 20 October 2026</p>
+        </article>
+
+        <article class="card announcement warm">
+            <span class="tag">Java</span>
+            <h3>Student Management System</h3>
+            <p>Implement OOP concepts using Java.</p>
+            <p><strong>Due Date:</strong> 23 October 2026</p>
+        </article>
+
+        <article class="card announcement coral">
+            <span class="tag coral">DBMS</span>
+            <h3>SQL Practice Assignment</h3>
+            <p>Practice SELECT, INSERT and UPDATE queries.</p>
+            <p><strong>Due Date:</strong> 26 October 2026</p>
+        </article>
+
+    </div>
+</section>
+
+<!-- Timetable -->
+<section class="section">
+
+    <div class="section-head">
+        <h2>Today's Timetable</h2>
+        <a href="timetable.html" class="link">Full Timetable →</a>
+    </div>
+
+    <div class="card">
+        <p><strong>09:00 AM – 10:00 AM</strong> | Java Programming | MA210</p>
+        <p><strong>10:00 AM – 11:00 AM</strong> | Database Management | MA206</p>
+        <p><strong>11:15 AM – 12:15 PM</strong> | Web Development | MA309</p>
+        <p><strong>01:00 PM – 02:00 PM</strong> | Data Structures | MB606</p>
+        <p><small>Sample timetable. Update according to your official schedule.</small></p>
+    </div>
+
+</section>
+
+<!-- Attendance -->
+<section class="section">
+
+    <div class="section-head">
+        <h2>Attendance Overview</h2>
+        <a href="attendance.html" class="link">View Details →</a>
+    </div>
+
+    <div class="feature-grid">
+
+        <article class="feature">
+            <h3>Java Programming</h3>
+            <h2>85%</h2>
+            <p>Sample attendance</p>
+        </article>
+
+        <article class="feature">
+            <h3>DBMS</h3>
+            <h2>90%</h2>
+            <p>Sample attendance</p>
+        </article>
+
+        <article class="feature">
+            <h3>Web Development</h3>
+            <h2>80%</h2>
+            <p>Sample attendance</p>
+        </article>
+
+        <article class="feature">
+            <h3>Data Structures</h3>
+            <h2>88%</h2>
+            <p>Sample attendance</p>
+        </article>
+
+    </div>
+</section>
+
+<!-- Events -->
+<section class="section">
+
+    <div class="section-head">
+        <h2>Campus Events</h2>
+        <a href="events.html" class="link">Explore Events →</a>
+    </div>
+
+    <div class="announcement-row">
+
+        <article class="card announcement">
+            <span class="tag green">Workshop</span>
+            <h3>Python Coding Workshop</h3>
+            <p>Learn Python fundamentals and solve coding problems.</p>
+            <p><strong>Date:</strong> 22 October 2026</p>
+        </article>
+
+        <article class="card announcement warm">
+            <span class="tag">Competition</span>
+            <h3>Project Exhibition</h3>
+            <p>Showcase innovative projects and creative ideas.</p>
+            <p><strong>Date:</strong> 28 October 2026</p>
+        </article>
+
+        <article class="card announcement coral">
+            <span class="tag coral">Seminar</span>
+            <h3>Career and Placement Seminar</h3>
+            <p>Explore placement preparation and career opportunities.</p>
+            <p><strong>Date:</strong> 30 October 2026</p>
+        </article>
+
+    </div>
+</section>
+
+<!-- Study Resources -->
+<section class="section">
+
+    <div class="section-head">
+        <h2>Study Resources</h2>
+        <a href="notes.html" class="link">View All Notes →</a>
+    </div>
+
+    <div class="announcement-row">
+
+        <article class="card announcement">
+            <span class="tag green">Java</span>
+            <h3>Java Programming Notes</h3>
+            <p>Classes, objects, inheritance and polymorphism.</p>
+            <a href="notes.html">Browse Notes →</a>
+        </article>
+
+        <article class="card announcement warm">
+            <span class="tag">DBMS</span>
+            <h3>DBMS Notes</h3>
+            <p>SQL queries, normalization and database concepts.</p>
+            <a href="notes.html">Browse Notes →</a>
+        </article>
+
+        <article class="card announcement coral">
+            <span class="tag coral">Python</span>
+            <h3>Python Notes</h3>
+            <p>Variables, data types, loops and functions.</p>
+            <a href="notes.html">Browse Notes →</a>
+        </article>
+
+    </div>
+</section>
+
+<!-- Support -->
+<section class="section">
+
+    <div class="section-head">
+        <h2>Need Help?</h2>
+    </div>
+
+    <div class="card">
+        <h3>Student Support Centre</h3>
+
+        <p>
+            Get help with academic queries, technical issues
+            and study resources.
+        </p>
+
+        <p>
+            <strong>Email:</strong> support@smartcampus.example
+        </p>
+
+        <a href="contact.html" class="button">
+            Contact Support
+        </a>
+    </div>
+
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+
+    <p>
+        Smart Campus Hub | Notes, Attendance,
+        Assignments and Campus Updates
+    </p>
+
+    <p>
+        © 2026 Smart Campus Hub. All rights reserved.
+    </p>
+
+</footer>
+
+</div>
+
+</body>
+</html>

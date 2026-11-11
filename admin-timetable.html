@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Timetable - Smart Campus Hub</title>
+    <link rel="stylesheet" href="../clientside/styles.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5ff;
+            color: #1e293b;
+        }
+
+        .page {
+            padding: 22px;
+        }
+
+        .app-shell {
+            display: flex;
+            max-width: 1500px;
+            min-height: 92vh;
+            margin: auto;
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px #1e40af14;
+        }
+
+        .side {
+            width: 245px;
+            flex-shrink: 0;
+            padding: 26px 17px;
+            color: white;
+            background: linear-gradient(180deg, #172554, #4338ca);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .brand-mark {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 47px;
+            height: 47px;
+            border-radius: 12px;
+            background: white;
+            color: #4338ca;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .brand-copy {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .brand-copy small {
+            display: block;
+            margin-top: 5px;
+            color: #c7d2fe;
+            font-size: 10px;
+        }
+
+        .side-section {
+            color: #c7d2fe;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 25px 10px 13px;
+        }
+
+        .side-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: #e0e7ff;
+            padding: 13px 14px;
+            border-radius: 9px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            background: white;
+            color: #3730a3;
+            font-weight: bold;
+        }
+
+        .workspace {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        .workspace-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .crumb {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 29px;
+        }
+
+        h3 {
+            color: #1e3a8a;
+            font-size: 20px;
+            margin: 14px 0 10px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: #e0e7ff;
+            color: #3730a3;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            padding: 20px;
+            border: 1px solid #e0e7ff;
+            border-radius: 13px;
+            background: white;
+            box-shadow: 0 4px 15px #312e8110;
+        }
+
+        .summary-card:nth-child(1) {
+            border-top: 4px solid #4f46e5;
+        }
+
+        .summary-card:nth-child(2) {
+            border-top: 4px solid #0891b2;
+        }
+
+        .summary-card:nth-child(3) {
+            border-top: 4px solid #16a34a;
+        }
+
+        .summary-card p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .summary-card h2 {
+            margin-top: 10px;
+            color: #1e3a8a;
+            font-size: 27px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 17px;
+            margin-bottom: 20px;
+            background: white;
+            border: 1px solid #e0e7ff;
+            border-radius: 13px;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .select,
+        .input,
+        .textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #f8faff;
+            color: #334155;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .toolbar .select {
+            width: auto;
+            min-width: 160px;
+        }
+
+        .select:focus,
+        .input:focus,
+        .textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px #e0e7ff;
+        }
+
+        .button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 17px;
+            background: #4338ca;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #312e81;
+            transform: translateY(-1px);
+        }
+
+        .button.secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .button.secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .calendar-panel,
+        .form-panel {
+            padding: 22px;
+            background: white;
+            border: 1px solid #e0e7ff;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px #312e8108;
+        }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .panel-heading h3 {
+            margin: 0 0 6px;
+        }
+
+        .badge {
+            padding: 7px 11px;
+            background: #e0e7ff;
+            color: #3730a3;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(125px, 1fr));
+            gap: 12px;
+            overflow-x: auto;
+        }
+
+        .day-column {
+            min-width: 0;
+            padding: 12px;
+            background: #f8faff;
+            border: 1px solid #e2e8f0;
+            border-radius: 11px;
+        }
+
+        .day-header {
+            padding: 12px 5px;
+            margin-bottom: 12px;
+            text-align: center;
+            background: #e0e7ff;
+            color: #312e81;
+            border-radius: 8px;
+        }
+
+        .day-header strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .day-header span {
+            display: block;
+            margin-top: 5px;
+            font-size: 11px;
+            color: #6366f1;
+        }
+
+        .class-block {
+            margin-bottom: 12px;
+            padding: 12px 9px;
+            border-radius: 8px;
+            border-left: 4px solid #4f46e5;
+            background: #e0e7ff;
+            overflow-wrap: anywhere;
+        }
+
+        .class-block.cyan {
+            background: #cffafe;
+            border-color: #0891b2;
+        }
+
+        .class-block.green {
+            background: #dcfce7;
+            border-color: #16a34a;
+        }
+
+        .class-block.orange {
+            background: #ffedd5;
+            border-color: #ea580c;
+        }
+
+        .class-block.pink {
+            background: #fce7f3;
+            border-color: #db2777;
+        }
+
+        .class-block strong {
+            display: block;
+            color: #1e293b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .class-block span {
+            display: block;
+            color: #475569;
+            font-size: 10px;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        .class-block .time-label {
+            font-weight: bold;
+            color: #3730a3;
+        }
+
+        .empty-day {
+            padding: 20px 5px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .form-panel {
+            margin-top: 24px;
+        }
+
+        .wire-label {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 20px;
+            color: #4338ca;
+            background: #e0e7ff;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        #status {
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.6;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 18px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .legend span::before {
+            content: "";
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 3px;
+            margin-right: 6px;
+            background: #4f46e5;
+        }
+
+        .legend .l-cyan::before {
+            background: #0891b2;
+        }
+
+        .legend .l-green::before {
+            background: #16a34a;
+        }
+
+        .legend .l-orange::before {
+            background: #ea580c;
+        }
+
+        @media (max-width: 1050px) {
+            .side {
+                width: 210px;
+            }
+
+            .workspace {
+                padding: 20px;
+            }
+
+            .calendar {
+                grid-template-columns: repeat(5, 150px);
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .page {
+                padding: 7px;
+            }
+
+            .app-shell {
+                flex-direction: column;
+            }
+
+            .side {
+                width: 100%;
+            }
+
+            .side-nav {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .workspace {
+                padding: 17px 12px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .toolbar .select {
+                width: 100%;
+            }
+
+            .toolbar-left {
+                width: 100%;
+            }
+
+            .toolbar-left > * {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="app-shell">
+
+            <aside class="side">
+
+                <div class="brand">
+                    <span class="brand-mark">SC</span>
+                    <span class="brand-copy">
+                        SMART CAMPUS
+                        <small>CAMPUS HUB</small>
+                    </span>
+                </div>
+
+                <div class="side-section">ADMIN WORKSPACE</div>
+
+                <nav class="side-nav">
+                    <a href="admin-dashboard.html">Overview</a>
+                    <a href="../clientside/students.html">Students</a>
+                    <a href="admin-attendance.html">Attendance</a>
+                    <a href="admin-timetable.html" class="active">Timetable</a>
+                    <a href="admin-notes.html">Notes</a>
+                    <a href="admin-assignments.html">Assignments</a>
+                    <a href="admin-events.html">Events</a>
+                    <a href="../clientside/messages.html">Messages</a>
+                </nav>
+
+            </aside>
+
+            <main class="workspace">
+
+                <div class="workspace-top">
+                    <div>
+                        <div class="crumb">Admin / Timetable</div>
+                        <h1>Manage Timetable</h1>
+                        <p class="subtitle">
+                            Marwadi University · B.Tech CSE · Semester III · Division EV1
+                        </p>
+                    </div>
+                    <div class="avatar">AK</div>
+                </div>
+
+                <div class="summary">
+                    <div class="summary-card">
+                        <p>Working Days</p>
+                        <h2>05</h2>
+                    </div>
+                    <div class="summary-card">
+                        <p>Sample Class Entries</p>
+                        <h2 id="totalClasses">15</h2>
+                    </div>
+                    <div class="summary-card">
+                        <p>College Rooms</p>
+                        <h2>04</h2>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <select class="select" id="weekFilter">
+                            <option value="Week 1">Semester III - Week 1</option>
+                            <option value="Week 2">Semester III - Week 2</option>
+                        </select>
+
+                        <select class="select" id="courseFilter">
+                            <option value="all">All Subjects</option>
+                            <option value="Python Programming">Python Programming</option>
+                            <option value="DBMS">DBMS</option>
+                            <option value="Java Programming">Java Programming</option>
+                            <option value="Data Structures">Data Structures</option>
+                            <option value="Web Technology">Web Technology</option>
+                        </select>
+                    </div>
+
+                    <button class="button" onclick="focusForm()">
+                        + Add Timetable Entry
+                    </button>
+                </div>
+
+                <section class="calendar-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Weekly Class Schedule</h3>
+                            <p class="subtitle">
+                                Monday to Friday · Sample academic schedule
+                            </p>
+                        </div>
+                        <span class="badge">SEM III · EV1</span>
+                    </div>
+
+                    <div class="calendar" id="calendar">
+
+                        <div class="day-column" data-day="Monday">
+                            <div class="day-header">
+                                <strong>Monday</strong>
+                                <span>Day 01</span>
+                            </div>
+
+                            <div class="class-block">
+                                <strong>Python Programming</strong>
+                                <span class="time-label">09:00 - 10:00</span>
+                                <span>Room MA210</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block cyan">
+                                <strong>DBMS</strong>
+                                <span class="time-label">10:15 - 11:15</span>
+                                <span>Room MA206</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block green">
+                                <strong>Web Technology</strong>
+                                <span class="time-label">13:30 - 14:30</span>
+                                <span>Room MA309</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+                        </div>
+
+                        <div class="day-column" data-day="Tuesday">
+                            <div class="day-header">
+                                <strong>Tuesday</strong>
+                                <span>Day 02</span>
+                            </div>
+
+                            <div class="class-block orange">
+                                <strong>Data Structures</strong>
+                                <span class="time-label">09:00 - 10:00</span>
+                                <span>Room MA206</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block">
+                                <strong>Java Programming</strong>
+                                <span class="time-label">10:15 - 11:15</span>
+                                <span>Room MA210</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block pink">
+                                <strong>Practical / Lab</strong>
+                                <span class="time-label">13:30 - 15:00</span>
+                                <span>Room MB606</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+                        </div>
+
+                        <div class="day-column" data-day="Wednesday">
+                            <div class="day-header">
+                                <strong>Wednesday</strong>
+                                <span>Day 03</span>
+                            </div>
+
+                            <div class="class-block cyan">
+                                <strong>DBMS</strong>
+                                <span class="time-label">09:00 - 10:00</span>
+                                <span>Room MA309</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block green">
+                                <strong>Python Programming</strong>
+                                <span class="time-label">10:15 - 11:15</span>
+                                <span>Room MA210</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block orange">
+                                <strong>Data Structures</strong>
+                                <span class="time-label">13:30 - 14:30</span>
+                                <span>Room MA206</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+                        </div>
+
+                        <div class="day-column" data-day="Thursday">
+                            <div class="day-header">
+                                <strong>Thursday</strong>
+                                <span>Day 04</span>
+                            </div>
+
+                            <div class="class-block pink">
+                                <strong>Java Programming</strong>
+                                <span class="time-label">09:00 - 10:00</span>
+                                <span>Room MA210</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block">
+                                <strong>Web Technology</strong>
+                                <span class="time-label">10:15 - 11:15</span>
+                                <span>Room MA309</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block cyan">
+                                <strong>Practical / Lab</strong>
+                                <span class="time-label">13:30 - 15:00</span>
+                                <span>Room MB606</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+                        </div>
+
+                        <div class="day-column" data-day="Friday">
+                            <div class="day-header">
+                                <strong>Friday</strong>
+                                <span>Day 05</span>
+                            </div>
+
+                            <div class="class-block green">
+                                <strong>Data Structures</strong>
+                                <span class="time-label">09:00 - 10:00</span>
+                                <span>Room MA206</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block orange">
+                                <strong>DBMS</strong>
+                                <span class="time-label">10:15 - 11:15</span>
+                                <span>Room MA309</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+
+                            <div class="class-block">
+                                <strong>Python Programming</strong>
+                                <span class="time-label">13:30 - 14:30</span>
+                                <span>Room MA210</span>
+                                <span>Faculty: To be confirmed</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="legend">
+                        <span>Programming</span>
+                        <span class="l-cyan">Database</span>
+                        <span class="l-green">Web / Theory</span>
+                        <span class="l-orange">Data Structures</span>
+                    </div>
+
+                </section>
+
+                <section class="form-panel" id="entryForm">
+
+                    <span class="wire-label">TIMETABLE MANAGEMENT</span>
+
+                    <h3>Add or Edit Timetable Entry</h3>
+                    <p class="subtitle">
+                        Fill in the details and save to add a class to the weekly schedule.
+                    </p>
+
+                    <form id="timetableForm">
+
+                        <div class="form-grid">
+
+                            <div class="field">
+                                <label for="day">Day</label>
+                                <select class="select" id="day" required>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="subject">Subject</label>
+                                <select class="select" id="subject" required>
+                                    <option value="Python Programming">Python Programming</option>
+                                    <option value="DBMS">DBMS</option>
+                                    <option value="Java Programming">Java Programming</option>
+                                    <option value="Data Structures">Data Structures</option>
+                                    <option value="Web Technology">Web Technology</option>
+                                    <option value="Practical / Lab">Practical / Lab</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="startTime">Start Time</label>
+                                <input class="input" type="time" id="startTime"
+                                    value="09:00" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="endTime">End Time</label>
+                                <input class="input" type="time" id="endTime"
+                                    value="10:00" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="room">Room</label>
+                                <select class="select" id="room" required>
+                                    <option value="MA210">MA210</option>
+                                    <option value="MA206">MA206</option>
+                                    <option value="MA309">MA309</option>
+                                    <option value="MB606">MB606</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="faculty">Faculty / Instructor</label>
+                                <input class="input" type="text" id="faculty"
+                                    placeholder="Enter faculty name"
+                                    value="To be confirmed" required>
+                            </div>
+
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="button secondary">
+                                Reset
+                            </button>
+                            <button type="submit" class="button">
+                                Save Entry
+                            </button>
+                        </div>
+
+                        <p id="status" role="status"></p>
+
+                    </form>
+
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("timetableForm");
+        const status = document.getElementById("status");
+        const calendar = document.getElementById("calendar");
+        const courseFilter = document.getElementById("courseFilter");
+
+        let classCount = 15;
+
+        function focusForm() {
+            document.getElementById("entryForm").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+            document.getElementById("subject").focus();
+        }
+
+        function updateCount() {
+            document.getElementById("totalClasses").textContent = classCount;
+        }
+
+        function applyFilter() {
+            const selected = courseFilter.value;
+            const blocks = calendar.querySelectorAll(".class-block");
+
+            blocks.forEach(function (block) {
+                const subject = block.querySelector("strong").textContent;
+                block.style.display =
+                    selected === "all" || subject === selected
+                        ? ""
+                        : "none";
+            });
+
+            calendar.querySelectorAll(".day-column").forEach(function (day) {
+                const visibleBlocks = [
+                    ...day.querySelectorAll(".class-block")
+                ].filter(block => block.style.display !== "none");
+
+                let empty = day.querySelector(".empty-day");
+
+                if (visibleBlocks.length === 0) {
+                    if (!empty) {
+                        empty = document.createElement("div");
+                        empty.className = "empty-day";
+                        empty.textContent = "No classes";
+                        day.appendChild(empty);
+                    }
+                } else if (empty) {
+                    empty.remove();
+                }
+            });
+        }
+
+        courseFilter.addEventListener("change", applyFilter);
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const day = document.getElementById("day").value;
+            const subject = document.getElementById("subject").value;
+            const start = document.getElementById("startTime").value;
+            const end = document.getElementById("endTime").value;
+            const room = document.getElementById("room").value;
+            const faculty = document.getElementById("faculty").value.trim();
+
+            if (!faculty || start >= end) {
+                status.style.color = "#dc2626";
+                status.textContent =
+                    "Please enter a faculty name and a valid time range.";
+                return;
+            }
+
+            const dayColumn = calendar.querySelector(
+                '.day-column[data-day="' + day + '"]'
+            );
+
+            const block = document.createElement("div");
+            block.className = "class-block";
+
+            const colors = {
+                "Python Programming": "",
+                "Java Programming": "pink",
+                "DBMS": "cyan",
+                "Data Structures": "orange",
+                "Web Technology": "green",
+                "Practical / Lab": "pink",
+                "Other": ""
+            };
+
+            if (colors[subject]) {
+                block.classList.add(colors[subject]);
+            }
+
+            const title = document.createElement("strong");
+            title.textContent = subject;
+
+            const time = document.createElement("span");
+            time.className = "time-label";
+            time.textContent = start + " - " + end;
+
+            const roomText = document.createElement("span");
+            roomText.textContent = "Room " + room;
+
+            const facultyText = document.createElement("span");
+            facultyText.textContent = "Faculty: " + faculty;
+
+            block.append(title, time, roomText, facultyText);
+
+            const empty = dayColumn.querySelector(".empty-day");
+            if (empty) empty.remove();
+
+            dayColumn.appendChild(block);
+
+            classCount++;
+            updateCount();
+
+            courseFilter.value = "all";
+            applyFilter();
+
+            status.style.color = "#15803d";
+            status.textContent =
+                "Timetable entry added to " + day + " successfully.";
+
+            form.reset();
+            document.getElementById("startTime").value = "09:00";
+            document.getElementById("endTime").value = "10:00";
+            document.getElementById("faculty").value = "To be confirmed";
+        });
+
+        form.addEventListener("reset", function () {
+            status.textContent = "";
+        });
+    </script>
+
+</body>
+</html>

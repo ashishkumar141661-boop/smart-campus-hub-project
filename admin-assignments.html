@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assignments - Smart Campus Hub</title>
+    <link rel="stylesheet" href="../clientside/styles.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .side {
+            width: 235px;
+            flex-shrink: 0;
+            background: #172554;
+            color: white;
+            padding: 24px 15px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .brand-mark {
+            background: #38bdf8;
+            color: #172554;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .brand-copy {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .brand-copy small {
+            display: block;
+            color: #93c5fd;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .side-nav a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 13px;
+            margin-bottom: 7px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .side-footer {
+            margin-top: 35px;
+            color: #bfdbfe;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .side-footer span {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .workspace {
+            flex: 1;
+            min-width: 0;
+            padding: 28px;
+        }
+
+        .workspace-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .crumb {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #172554;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 9px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .avatar {
+            background: #dbeafe;
+            color: #1d4ed8;
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 23px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #2563eb;
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: #8b5cf6;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #f59e0b;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            font-size: 13px;
+            margin: 0 0 12px;
+        }
+
+        .stat-card h2 {
+            margin: 0;
+            color: #172554;
+            font-size: 27px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 13px;
+            background: white;
+            padding: 17px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .input,
+        .select,
+        .textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 13px;
+            background: white;
+            color: #334155;
+            outline: none;
+        }
+
+        .input:focus,
+        .select:focus,
+        .textarea:focus {
+            border-color: #2563eb;
+        }
+
+        .search {
+            width: 245px;
+        }
+
+        .button {
+            padding: 11px 16px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .secondary:hover {
+            background: #dbeafe;
+        }
+
+        .danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .danger:hover {
+            background: #fecaca;
+        }
+
+        .table-wrap {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        .table th {
+            background: #eff6ff;
+            color: #1e3a8a;
+            text-align: left;
+            font-size: 12px;
+            padding: 16px 14px;
+        }
+
+        .table td {
+            padding: 17px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .line-meta {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 6px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 20px;
+            padding: 6px 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .purple {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .coral {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .orange {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .form-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px #0f172a08;
+        }
+
+        .wire-label {
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-panel h3 {
+            margin: 10px 0 22px;
+            font-size: 21px;
+            color: #172554;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .empty {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        @media (max-width: 850px) {
+            .side {
+                width: 190px;
+            }
+
+            .workspace {
+                padding: 18px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .app-shell {
+                flex-direction: column;
+            }
+
+            .side {
+                width: 100%;
+            }
+
+            .side-nav {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4px;
+            }
+
+            .workspace-top {
+                align-items: flex-start;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .toolbar .actions {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-shell">
+
+        <aside class="side">
+            <div class="brand">
+                <span class="brand-mark">SC</span>
+                <span class="brand-copy">
+                    SMART CAMPUS
+                    <small>CAMPUS HUB</small>
+                </span>
+            </div>
+
+            <nav class="side-nav">
+                <a href="admin-dashboard.html">Overview</a>
+                <a href="../clientside/students.html">Students</a>
+                <a href="admin-attendance.html">Attendance</a>
+                <a href="admin-timetable.html">Timetable</a>
+                <a href="admin-notes.html">Notes</a>
+                <a href="admin-assignments.html" class="active">Assignments</a>
+                <a href="admin-events.html">Events</a>
+                <a href="../clientside/messages.html">Messages</a>
+            </nav>
+
+            <div class="side-footer">
+                Admin Workspace
+                <br>
+                <span>Smart Campus Hub · Demo</span>
+            </div>
+        </aside>
+
+        <main class="workspace">
+
+            <div class="workspace-top">
+                <div>
+                    <div class="crumb">Admin / Assignments</div>
+                    <h1>Manage Assignments</h1>
+                    <p class="subtitle">
+                        Create, update and manage student assignments.
+                    </p>
+                </div>
+
+                <div class="actions">
+                    <span class="avatar">AD</span>
+                </div>
+            </div>
+
+            <section class="stats">
+                <div class="stat-card">
+                    <p>Total Assignments</p>
+                    <h2 id="totalCount">4</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Published</p>
+                    <h2 id="publishedCount">3</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Drafts</p>
+                    <h2 id="draftCount">1</h2>
+                </div>
+            </section>
+
+            <div class="toolbar">
+                <div class="actions">
+                    <input type="text" class="input search" id="searchInput"
+                        placeholder="Search assignments...">
+
+                    <select class="select" id="filterSubject" style="width:180px">
+                        <option value="all">All Subjects</option>
+                        <option value="Java Programming">Java Programming</option>
+                        <option value="Database Systems">Database Systems</option>
+                        <option value="Web Technology">Web Technology</option>
+                        <option value="Data Structures">Data Structures</option>
+                    </select>
+                </div>
+
+                <button class="button" onclick="newAssignment()">
+                    + Add Assignment
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Assignment</th>
+                            <th>Subject</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="assignmentList">
+
+                        <tr data-subject="Java Programming">
+                            <td>
+                                <strong>Java OOP Project</strong>
+                                <div class="line-meta">Classes, objects and inheritance</div>
+                            </td>
+                            <td>Java Programming</td>
+                            <td>20 Oct 2026</td>
+                            <td><span class="tag green">Published</span></td>
+                            <td><span class="tag coral">High</span></td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-subject="Database Systems">
+                            <td>
+                                <strong>Database Normalization</strong>
+                                <div class="line-meta">Convert tables into 3NF</div>
+                            </td>
+                            <td>Database Systems</td>
+                            <td>22 Oct 2026</td>
+                            <td><span class="tag green">Published</span></td>
+                            <td><span class="tag orange">Medium</span></td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-subject="Web Technology">
+                            <td>
+                                <strong>Responsive Website Design</strong>
+                                <div class="line-meta">Create a Bootstrap student portal</div>
+                            </td>
+                            <td>Web Technology</td>
+                            <td>25 Oct 2026</td>
+                            <td><span class="tag green">Published</span></td>
+                            <td><span class="tag coral">High</span></td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-subject="Data Structures">
+                            <td>
+                                <strong>Sorting Algorithms</strong>
+                                <div class="line-meta">Implement Quick Sort in C</div>
+                            </td>
+                            <td>Data Structures</td>
+                            <td>30 Oct 2026</td>
+                            <td><span class="tag purple">Draft</span></td>
+                            <td><span class="tag orange">Medium</span></td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="empty" id="emptyMessage">
+                    No assignments found.
+                </div>
+            </div>
+
+            <section class="form-panel" id="assignmentForm">
+                <span class="wire-label">Assignment Management</span>
+                <h3 id="formTitle">Create New Assignment</h3>
+
+                <form id="assignmentEditor">
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label for="title">Assignment Title</label>
+                            <input class="input" id="title" required
+                                placeholder="Enter assignment title">
+                        </div>
+
+                        <div class="field">
+                            <label for="subject">Subject</label>
+                            <select class="select" id="subject" required>
+                                <option value="">Select subject</option>
+                                <option>Java Programming</option>
+                                <option>Database Systems</option>
+                                <option>Web Technology</option>
+                                <option>Data Structures</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="dueDate">Due Date</label>
+                            <input type="date" class="input" id="dueDate" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="priority">Priority</label>
+                            <select class="select" id="priority">
+                                <option>Medium</option>
+                                <option>High</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="status">Assignment Status</label>
+                            <select class="select" id="status">
+                                <option>Published</option>
+                                <option>Draft</option>
+                            </select>
+                        </div>
+
+                        <div class="field full">
+                            <label for="description">Assignment Description</label>
+                            <textarea class="textarea" id="description"
+                                placeholder="Enter instructions for students..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="button" id="saveBtn">
+                            Publish Assignment
+                        </button>
+                        <button type="button" class="button secondary"
+                            onclick="resetForm()">
+                            Clear Form
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const list = document.getElementById("assignmentList");
+        const form = document.getElementById("assignmentEditor");
+        const search = document.getElementById("searchInput");
+        const filter = document.getElementById("filterSubject");
+
+        let editingRow = null;
+
+        function newAssignment() {
+            resetForm();
+            document.getElementById("assignmentForm").scrollIntoView({
+                behavior: "smooth"
+            });
+            document.getElementById("title").focus();
+        }
+
+        function resetForm() {
+            form.reset();
+            editingRow = null;
+            document.getElementById("formTitle").textContent =
+                "Create New Assignment";
+            document.getElementById("saveBtn").textContent =
+                "Publish Assignment";
+        }
+
+        function updateStats() {
+            const rows = [...list.querySelectorAll("tr")];
+
+            document.getElementById("totalCount").textContent = rows.length;
+
+            document.getElementById("publishedCount").textContent =
+                rows.filter(row =>
+                    row.cells[3].innerText.trim() === "Published"
+                ).length;
+
+            document.getElementById("draftCount").textContent =
+                rows.filter(row =>
+                    row.cells[3].innerText.trim() === "Draft"
+                ).length;
+        }
+
+        function filterAssignments() {
+            const query = search.value.toLowerCase().trim();
+            const subject = filter.value;
+            let visible = 0;
+
+            [...list.querySelectorAll("tr")].forEach(row => {
+                const matchesText =
+                    row.innerText.toLowerCase().includes(query);
+
+                const matchesSubject =
+                    subject === "all" ||
+                    row.dataset.subject === subject;
+
+                const show = matchesText && matchesSubject;
+                row.style.display = show ? "" : "none";
+
+                if (show) visible++;
+            });
+
+            document.getElementById("emptyMessage").style.display =
+                visible === 0 ? "block" : "none";
+        }
+
+        function addActionButtons(row) {
+            row.querySelector(".edit-btn").addEventListener("click", () => {
+                editingRow = row;
+
+                document.getElementById("title").value =
+                    row.cells[0].querySelector("strong").textContent;
+
+                document.getElementById("subject").value =
+                    row.cells[1].textContent;
+
+                const parts = row.cells[2].textContent.split(" ");
+                const months = {
+                    Jan: "01", Feb: "02", Mar: "03", Apr: "04",
+                    May: "05", Jun: "06", Jul: "07", Aug: "08",
+                    Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+                };
+
+                if (parts.length === 3 && months[parts[1]]) {
+                    document.getElementById("dueDate").value =
+                        `${parts[2]}-${months[parts[1]]}-${parts[0]}`;
+                }
+
+                document.getElementById("status").value =
+                    row.cells[3].innerText.trim();
+
+                document.getElementById("priority").value =
+                    row.cells[4].innerText.trim();
+
+                document.getElementById("description").value =
+                    row.cells[0].querySelector(".line-meta").textContent;
+
+                document.getElementById("formTitle").textContent =
+                    "Edit Assignment";
+
+                document.getElementById("saveBtn").textContent =
+                    "Save Changes";
+
+                document.getElementById("assignmentForm").scrollIntoView({
+                    behavior: "smooth"
+                });
+            });
+
+            row.querySelector(".delete-btn").addEventListener("click", () => {
+                if (confirm("Are you sure you want to delete this assignment?")) {
+                    row.remove();
+                    updateStats();
+                    filterAssignments();
+
+                    if (editingRow === row) resetForm();
+                }
+            });
+        }
+
+        [...list.querySelectorAll("tr")].forEach(addActionButtons);
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const title = document.getElementById("title").value.trim();
+            const subject = document.getElementById("subject").value;
+            const date = document.getElementById("dueDate").value;
+            const priority = document.getElementById("priority").value;
+            const status = document.getElementById("status").value;
+            const description =
+                document.getElementById("description").value.trim();
+
+            const formattedDate = new Date(date + "T00:00:00")
+                .toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                });
+
+            const statusClass =
+                status === "Published" ? "green" : "purple";
+
+            const priorityClass = {
+                High: "coral",
+                Medium: "orange",
+                Low: "green"
+            }[priority];
+
+            const row = editingRow || document.createElement("tr");
+
+            row.dataset.subject = subject;
+
+            row.innerHTML = `
+                <td>
+                    <strong></strong>
+                    <div class="line-meta"></div>
+                </td>
+                <td></td>
+                <td></td>
+                <td><span class="tag ${statusClass}">${status}</span></td>
+                <td><span class="tag ${priorityClass}">${priority}</span></td>
+                <td>
+                    <div class="actions">
+                        <button class="button secondary edit-btn">Edit</button>
+                        <button class="button danger delete-btn">Delete</button>
+                    </div>
+                </td>
+            `;
+
+            row.cells[0].querySelector("strong").textContent = title;
+            row.cells[0].querySelector(".line-meta").textContent =
+                description || "No description provided";
+
+            row.cells[1].textContent = subject;
+            row.cells[2].textContent = formattedDate;
+
+            if (!editingRow) {
+                list.appendChild(row);
+                addActionButtons(row);
+            }
+
+            resetForm();
+            updateStats();
+            filterAssignments();
+
+            alert("Assignment saved successfully!");
+        });
+
+        search.addEventListener("input", filterAssignments);
+        filter.addEventListener("change", filterAssignments);
+
+        updateStats();
+    </script>
+
+</body>
+</html>

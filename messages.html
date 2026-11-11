@@ -1,0 +1,1018 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messages | Smart Campus Hub</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --bg: #f4f6fb;
+    --white: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --green: #059669;
+    --red: #e11d48;
+    --orange: #d97706;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.side {
+    width: 245px;
+    background: #172554;
+    color: white;
+    padding: 25px 17px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.brand-mark {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #818cf8, #4f46e5);
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.brand-copy {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.brand-copy small {
+    display: block;
+    color: #a5b4fc;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+.side-section {
+    color: #94a3b8;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 5px 10px 14px;
+}
+
+.side-nav a {
+    display: block;
+    color: #cbd5e1;
+    padding: 13px 14px;
+    margin-bottom: 6px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.side-nav a:hover {
+    background: #273a6b;
+    color: white;
+}
+
+.side-nav a.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 5px 14px #00000020;
+}
+
+.side-footer {
+    margin-top: auto;
+    padding-top: 25px;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.side-footer span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* Main Workspace */
+.workspace {
+    flex: 1;
+    min-width: 0;
+    padding: 28px;
+}
+
+.workspace-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+}
+
+.eyebrow {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+h1 {
+    font-size: 29px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: var(--primary-dark);
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px var(--line);
+}
+
+/* Summary Cards */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 21px;
+    border-radius: 15px;
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 15px #0f172a06;
+}
+
+.stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+}
+
+.purple-bg { background: #ede9fe; }
+.orange-bg { background: #ffedd5; }
+.green-bg { background: #d1fae5; }
+
+.stat-number {
+    font-size: 29px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Toolbar */
+.toolbar {
+    background: white;
+    padding: 17px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.toolbar-left {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+
+.input, .select {
+    padding: 12px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background: white;
+    color: var(--text);
+    outline: none;
+    font-size: 13px;
+}
+
+.input {
+    width: 100%;
+    max-width: 350px;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px #4f46e51a;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Message Layout */
+.detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.9fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 23px;
+    box-shadow: 0 4px 15px #0f172a06;
+    min-width: 0;
+}
+
+.panel-heading {
+    margin-bottom: 20px;
+}
+
+.panel-heading h2 {
+    font-size: 19px;
+    margin-bottom: 6px;
+}
+
+.panel-heading p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Table */
+.table-wrap {
+    overflow-x: auto;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table th {
+    padding: 15px 13px;
+    font-size: 11px;
+    color: #64748b;
+    background: #f8fafc;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 17px 13px;
+    border-top: 1px solid #edf0f5;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.table tbody tr:hover {
+    background: #f8faff;
+}
+
+.table tbody tr.selected {
+    background: #eef2ff;
+}
+
+.sender {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #1e293b;
+}
+
+.line-meta {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.subject {
+    font-weight: 600;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.tag {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tag.coral {
+    background: #ffe4e6;
+    color: #be123c;
+}
+
+.tag.green {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.tag.orange {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* Selected Message */
+.wire-label {
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.message-title {
+    font-size: 21px;
+    line-height: 1.4;
+    margin: 12px 0 9px;
+}
+
+.sender-detail {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.message {
+    margin-top: 20px;
+    padding: 17px;
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.message-info {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 9px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.field {
+    margin-top: 20px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+.textarea {
+    width: 100%;
+    min-height: 125px;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Buttons */
+.button {
+    padding: 11px 15px;
+    border: none;
+    border-radius: 9px;
+    background: var(--primary);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.button:hover {
+    background: var(--primary-dark);
+}
+
+.button.secondary {
+    background: #eef2ff;
+    color: var(--primary-dark);
+}
+
+.button.secondary:hover {
+    background: #e0e7ff;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 35px 15px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.notice {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 9px;
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 13px;
+    line-height: 1.6;
+    display: none;
+}
+
+.notice.show {
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .side {
+        width: 215px;
+    }
+
+    .workspace {
+        padding: 20px;
+    }
+
+    .detail-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .app-shell {
+        display: block;
+    }
+
+    .side {
+        width: 100%;
+        padding: 18px;
+    }
+
+    .brand {
+        margin-bottom: 20px;
+    }
+
+    .side-section, .side-footer {
+        display: none;
+    }
+
+    .side-nav {
+        display: flex;
+        gap: 7px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .side-nav a {
+        white-space: nowrap;
+        margin-bottom: 0;
+        padding: 11px 13px;
+    }
+
+    .workspace {
+        padding: 16px;
+    }
+
+    .workspace-top {
+        align-items: flex-start;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .toolbar-left {
+        flex-direction: column;
+    }
+
+    .input {
+        max-width: none;
+    }
+
+    .select {
+        width: 100%;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    .table {
+        min-width: 570px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="side">
+        <div class="brand">
+            <span class="brand-mark">SC</span>
+            <span class="brand-copy">
+                SMART CAMPUS
+                <small>CAMPUS HUB</small>
+            </span>
+        </div>
+
+        <div class="side-section">Admin Workspace</div>
+
+        <nav class="side-nav">
+            <a href="../adminside/admin-dashboard.html">▦ &nbsp; Overview</a>
+            <a href="students.html">♙ &nbsp; Students</a>
+            <a href="../adminside/admin-attendance.html">✓ &nbsp; Attendance</a>
+            <a href="../adminside/admin-timetable.html">▦ &nbsp; Timetable</a>
+            <a href="../adminside/admin-notes.html">▤ &nbsp; Notes</a>
+            <a href="../adminside/admin-assignments.html">✎ &nbsp; Assignments</a>
+            <a href="../adminside/admin-events.html">◷ &nbsp; Events</a>
+            <a href="messages.html" class="active">✉ &nbsp; Messages</a>
+        </nav>
+
+        <div class="side-footer">
+            Smart Campus Hub
+            <br>
+            <span>Admin Panel · Local Demo</span>
+        </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+
+        <header class="workspace-top">
+            <div>
+                <div class="eyebrow">Communication Center</div>
+                <h1>Contact Messages</h1>
+                <p class="subtitle">
+                    Manage student queries, reply to messages and track resolutions.
+                </p>
+            </div>
+
+            <div class="actions">
+                <div class="avatar">AK</div>
+            </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span class="stat-icon purple-bg">✉️</span>
+                    <span class="tag">All messages</span>
+                </div>
+                <div class="stat-number" id="totalCount">8</div>
+                <div class="stat-label">Total Messages</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span class="stat-icon orange-bg">🔔</span>
+                    <span class="tag coral">Needs attention</span>
+                </div>
+                <div class="stat-number" id="openCount">5</div>
+                <div class="stat-label">Open / Unread Messages</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span class="stat-icon green-bg">✓</span>
+                    <span class="tag green">Completed</span>
+                </div>
+                <div class="stat-number" id="resolvedCount">3</div>
+                <div class="stat-label">Resolved Messages</div>
+            </div>
+
+        </section>
+
+        <!-- Search and Filter -->
+        <section class="toolbar">
+            <div class="toolbar-left">
+                <input
+                    type="search"
+                    class="input"
+                    id="searchInput"
+                    placeholder="Search name, email or subject..."
+                    aria-label="Search messages"
+                >
+
+                <select class="select" id="statusFilter" aria-label="Filter by status">
+                    <option value="All">All statuses</option>
+                    <option value="Unread">Unread</option>
+                    <option value="Open">Open</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+            </div>
+
+            <span class="muted" id="resultCount">8 messages</span>
+        </section>
+
+        <!-- Message List and Detail -->
+        <div class="detail-layout">
+
+            <section class="table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>From</th>
+                            <th>Subject</th>
+                            <th>Received</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="messageTable"></tbody>
+                </table>
+
+                <div class="empty-state" id="emptyState" hidden>
+                    No messages found. Try a different search.
+                </div>
+            </section>
+
+            <!-- Selected Message -->
+            <aside class="panel">
+                <span class="wire-label">Selected Message</span>
+
+                <h2 class="message-title" id="detailSubject">
+                    Library access after hours
+                </h2>
+
+                <div class="sender-detail" id="detailSender"></div>
+
+                <div class="message" id="detailMessage"></div>
+
+                <div class="message-info" id="detailStatus"></div>
+
+                <div class="field">
+                    <label for="replyText">Your Reply</label>
+                    <textarea
+                        class="textarea"
+                        id="replyText"
+                        placeholder="Write a response to this message..."
+                    ></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button class="button secondary" id="resolveButton"
+                            type="button">
+                        ✓ Mark Resolved
+                    </button>
+
+                    <button class="button" id="replyButton" type="button">
+                        Send Reply
+                    </button>
+                </div>
+
+                <div class="notice" id="notice" role="status"></div>
+            </aside>
+
+        </div>
+
+    </main>
+</div>
+
+<script>
+const messages = [
+    {
+        id: 1,
+        name: "Ashish Kumar",
+        email: "ashish.kumar@gmail.com",
+        subject: "Library access after hours",
+        received: "2 hours ago",
+        status: "Unread",
+        message: "Hi campus team, I am working on a submission this week and wanted to confirm whether the library quiet floors are open after 9 PM."
+    },
+    {
+        id: 2,
+        name: "Aman Kumar",
+        email: "aman.singh@gmail.com",
+        subject: "Unable to download notes",
+        received: "Yesterday",
+        status: "Open",
+        message: "Hello Admin, I am unable to download the notes for my Computer Science subject. Could you please check this issue?"
+    },
+    {
+        id: 3,
+        name: "Ansh Kumar",
+        email: "ansh.kumar@gmail.com",
+        subject: "Update profile details",
+        received: "Yesterday",
+        status: "Resolved",
+        message: "I recently updated my profile details. Please confirm whether the changes have been saved successfully."
+    },
+    {
+        id: 4,
+        name: "Priya Sharma",
+        email: "priya.sharma@example.com",
+        subject: "Assignment submission date",
+        received: "1 day ago",
+        status: "Open",
+        message: "Could you please confirm the final submission date for the Web Development assignment?"
+    },
+    {
+        id: 5,
+        name: "Rahul Singh",
+        email: "rahul.singh@example.com",
+        subject: "Attendance correction request",
+        received: "2 days ago",
+        status: "Unread",
+        message: "My attendance for Monday appears to be missing. Please check my record and let me know if any details are needed."
+    },
+    {
+        id: 6,
+        name: "Neha Kumari",
+        email: "neha.kumari@example.com",
+        subject: "Timetable clarification",
+        received: "2 days ago",
+        status: "Resolved",
+        message: "I wanted to clarify the timing of the upcoming practical class. Thank you for your assistance."
+    },
+    {
+        id: 7,
+        name: "Rohit Verma",
+        email: "rohit.verma@example.com",
+        subject: "Student ID card query",
+        received: "3 days ago",
+        status: "Open",
+        message: "Please tell me the process for getting a replacement student ID card."
+    },
+    {
+        id: 8,
+        name: "Sneha Gupta",
+        email: "sneha.gupta@example.com",
+        subject: "Event registration confirmation",
+        received: "4 days ago",
+        status: "Resolved",
+        message: "I registered for the campus event but have not received a confirmation yet. Could you please check?"
+    }
+];
+
+let selectedId = 1;
+
+const messageTable = document.getElementById("messageTable");
+const searchInput = document.getElementById("searchInput");
+const statusFilter = document.getElementById("statusFilter");
+const emptyState = document.getElementById("emptyState");
+const notice = document.getElementById("notice");
+
+function getSelectedMessage() {
+    return messages.find(message => message.id === selectedId);
+}
+
+function statusClass(status) {
+    if (status === "Unread") return "tag coral";
+    if (status === "Resolved") return "tag green";
+    return "tag orange";
+}
+
+function renderMessages() {
+    const query = searchInput.value.trim().toLowerCase();
+    const status = statusFilter.value;
+
+    const filtered = messages.filter(message => {
+        const searchable =
+            `${message.name} ${message.email} ${message.subject} ${message.message}`
+            .toLowerCase();
+
+        const matchesSearch = searchable.includes(query);
+        const matchesStatus = status === "All" || message.status === status;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    messageTable.replaceChildren();
+
+    filtered.forEach(message => {
+        const row = document.createElement("tr");
+
+        if (message.id === selectedId) {
+            row.classList.add("selected");
+        }
+
+        const fromCell = document.createElement("td");
+        const sender = document.createElement("div");
+        sender.className = "sender";
+        sender.textContent = message.name;
+
+        const email = document.createElement("div");
+        email.className = "line-meta";
+        email.textContent = message.email;
+
+        fromCell.append(sender, email);
+
+        const subjectCell = document.createElement("td");
+        const subject = document.createElement("div");
+        subject.className = "subject";
+        subject.textContent = message.subject;
+        subjectCell.appendChild(subject);
+
+        const receivedCell = document.createElement("td");
+        receivedCell.textContent = message.received;
+
+        const statusCell = document.createElement("td");
+        const tag = document.createElement("span");
+        tag.className = statusClass(message.status);
+        tag.textContent = message.status;
+        statusCell.appendChild(tag);
+
+        row.append(fromCell, subjectCell, receivedCell, statusCell);
+
+        row.addEventListener("click", () => {
+            selectedId = message.id;
+            notice.classList.remove("show");
+            renderMessages();
+            renderDetails();
+        });
+
+        messageTable.appendChild(row);
+    });
+
+    emptyState.hidden = filtered.length > 0;
+
+    document.getElementById("resultCount").textContent =
+        `${filtered.length} message${filtered.length === 1 ? "" : "s"}`;
+
+    updateStats();
+}
+
+function renderDetails() {
+    const message = getSelectedMessage();
+
+    if (!message) return;
+
+    document.getElementById("detailSubject").textContent = message.subject;
+    document.getElementById("detailSender").textContent =
+        `From ${message.name} (${message.email}) · ${message.received}`;
+
+    document.getElementById("detailMessage").textContent = message.message;
+
+    document.getElementById("detailStatus").textContent =
+        `Current status: ${message.status}`;
+
+    document.getElementById("resolveButton").disabled =
+        message.status === "Resolved";
+
+    document.getElementById("replyText").value = "";
+}
+
+function updateStats() {
+    const total = messages.length;
+    const resolved = messages.filter(m => m.status === "Resolved").length;
+    const open = total - resolved;
+
+    document.getElementById("totalCount").textContent = total;
+    document.getElementById("openCount").textContent = open;
+    document.getElementById("resolvedCount").textContent = resolved;
+}
+
+document.getElementById("resolveButton").addEventListener("click", () => {
+    const message = getSelectedMessage();
+
+    if (!message) return;
+
+    message.status = "Resolved";
+    notice.textContent = "Message marked as resolved.";
+    notice.classList.add("show");
+
+    renderMessages();
+    renderDetails();
+});
+
+document.getElementById("replyButton").addEventListener("click", () => {
+    const message = getSelectedMessage();
+    const reply = document.getElementById("replyText").value.trim();
+
+    if (!message) return;
+
+    if (!reply) {
+        notice.textContent = "Please write a reply before sending.";
+        notice.classList.add("show");
+        return;
+    }
+
+    /*
+      Frontend demo only: this does not email the sender.
+      A backend or email service is required for real delivery.
+    */
+    message.status = "Resolved";
+    notice.textContent =
+        "Demo reply recorded on this page. It has not been emailed to the sender.";
+
+    notice.classList.add("show");
+
+    renderMessages();
+    renderDetails();
+});
+
+searchInput.addEventListener("input", renderMessages);
+statusFilter.addEventListener("change", renderMessages);
+
+renderMessages();
+renderDetails();
+</script>
+
+</body>
+</html>

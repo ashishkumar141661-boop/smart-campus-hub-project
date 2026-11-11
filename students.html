@@ -1,0 +1,1056 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Students | Smart Campus Hub</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --bg: #f4f6fb;
+    --white: #fff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --green: #059669;
+    --red: #e11d48;
+    --orange: #d97706;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.side {
+    width: 245px;
+    background: #172554;
+    color: white;
+    padding: 25px 17px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.brand-mark {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #818cf8, #4f46e5);
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.brand-copy {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.brand-copy small {
+    display: block;
+    color: #a5b4fc;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+.side-section {
+    color: #94a3b8;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 5px 10px 14px;
+}
+
+.side-nav a {
+    display: block;
+    color: #cbd5e1;
+    padding: 13px 14px;
+    margin-bottom: 6px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.side-nav a:hover {
+    background: #273a6b;
+    color: white;
+}
+
+.side-nav a.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 5px 14px #00000020;
+}
+
+.side-footer {
+    margin-top: auto;
+    padding-top: 25px;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.side-footer span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* Main Content */
+.workspace {
+    flex: 1;
+    min-width: 0;
+    padding: 28px;
+}
+
+.workspace-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.crumb {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+h1 {
+    font-size: 29px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: var(--primary-dark);
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px var(--line);
+}
+
+/* Summary Cards */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    padding: 21px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 15px #0f172a06;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+    margin-bottom: 15px;
+}
+
+.purple-bg { background: #ede9fe; }
+.green-bg { background: #d1fae5; }
+.orange-bg { background: #ffedd5; }
+
+.stat-number {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Buttons and Inputs */
+.button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 9px;
+    background: var(--primary);
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.button:hover {
+    background: var(--primary-dark);
+}
+
+.button.secondary {
+    background: #eef2ff;
+    color: var(--primary-dark);
+}
+
+.button.secondary:hover {
+    background: #e0e7ff;
+}
+
+.button.danger {
+    background: var(--red);
+}
+
+.button.danger:hover {
+    background: #be123c;
+}
+
+.input, .select {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background: white;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+}
+
+.input:focus, .select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px #4f46e51a;
+}
+
+/* Toolbar */
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    background: white;
+    padding: 17px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.search-input {
+    max-width: 350px;
+}
+
+.course-filter {
+    max-width: 220px;
+}
+
+/* Student Table */
+.table-wrap {
+    overflow-x: auto;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: 0 4px 15px #0f172a06;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table th {
+    padding: 16px 15px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 17px 15px;
+    border-top: 1px solid #edf0f5;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background: #f8faff;
+}
+
+.student-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.line-meta {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.student-id {
+    color: #475569;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tag {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 20px;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tag.green {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.icon-box {
+    padding: 8px 10px;
+    border-radius: 7px;
+    background: #eef2ff;
+    color: #4338ca;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.icon-box:hover {
+    background: #e0e7ff;
+}
+
+.icon-box.delete {
+    background: #ffe4e6;
+    color: #be123c;
+}
+
+.icon-box.delete:hover {
+    background: #fecdd3;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Forms */
+.two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.8fr);
+    gap: 20px;
+    margin-top: 22px;
+    align-items: start;
+}
+
+.form-panel, .panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 23px;
+    box-shadow: 0 4px 15px #0f172a06;
+    min-width: 0;
+}
+
+.wire-label {
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.form-panel h3, .panel h3 {
+    font-size: 19px;
+    margin: 11px 0 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.confirm-box {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 15px 0;
+    color: #9f1239;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.notice {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 9px;
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.notice.show {
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+    .side {
+        width: 215px;
+    }
+
+    .workspace {
+        padding: 20px;
+    }
+
+    .two-col {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .app-shell {
+        display: block;
+    }
+
+    .side {
+        width: 100%;
+        padding: 18px;
+    }
+
+    .brand {
+        margin-bottom: 20px;
+    }
+
+    .side-section, .side-footer {
+        display: none;
+    }
+
+    .side-nav {
+        display: flex;
+        gap: 7px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .side-nav a {
+        white-space: nowrap;
+        margin-bottom: 0;
+        padding: 11px 13px;
+    }
+
+    .workspace {
+        padding: 16px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .toolbar-left {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .search-input, .course-filter {
+        max-width: none;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .table {
+        min-width: 780px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="side">
+        <div class="brand">
+            <span class="brand-mark">SC</span>
+            <span class="brand-copy">
+                SMART CAMPUS
+                <small>CAMPUS HUB</small>
+            </span>
+        </div>
+
+        <div class="side-section">Admin Workspace</div>
+
+        <nav class="side-nav">
+            <a href="../adminside/admin-dashboard.html">▦ &nbsp; Overview</a>
+            <a href="students.html" class="active">♙ &nbsp; Students</a>
+            <a href="../adminside/admin-attendance.html">✓ &nbsp; Attendance</a>
+            <a href="../adminside/admin-timetable.html">▦ &nbsp; Timetable</a>
+            <a href="../adminside/admin-notes.html">▤ &nbsp; Notes</a>
+            <a href="../adminside/admin-assignments.html">✎ &nbsp; Assignments</a>
+            <a href="../adminside/admin-events.html">◷ &nbsp; Events</a>
+            <a href="messages.html">✉ &nbsp; Messages</a>
+        </nav>
+
+        <div class="side-footer">
+            Smart Campus Hub
+            <br>
+            <span>Admin Panel · Local Demo</span>
+        </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+
+        <header class="workspace-top">
+            <div>
+                <div class="crumb">Admin / Student Management</div>
+                <h1>Students</h1>
+                <p class="subtitle">
+                    Manage student records, courses and profile information.
+                </p>
+            </div>
+
+            <div class="actions">
+                <div class="avatar">AK</div>
+            </div>
+        </header>
+
+        <!-- Statistics -->
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-icon purple-bg">🎓</div>
+                <div class="stat-number" id="totalStudents">3</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green-bg">✓</div>
+                <div class="stat-number" id="completeStudents">2</div>
+                <div class="stat-label">Complete Profiles</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange-bg">📋</div>
+                <div class="stat-number" id="pendingStudents">1</div>
+                <div class="stat-label">Profiles Need Information</div>
+            </div>
+        </section>
+
+        <!-- Search Toolbar -->
+        <section class="toolbar">
+            <div class="toolbar-left">
+                <input
+                    type="search"
+                    class="input search-input"
+                    id="searchInput"
+                    placeholder="Search by name, email or ID..."
+                    aria-label="Search students"
+                >
+
+                <select class="select course-filter" id="courseFilter"
+                        aria-label="Filter by course">
+                    <option value="All">All Courses</option>
+                    <option value="B.Tech CSE">B.Tech CSE</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="B.Tech AIML">B.Tech AIML</option>
+                    <option value="BCA">BCA</option>
+                    <option value="B.Tech IT">B.Tech IT</option>
+                </select>
+            </div>
+
+            <button class="button" id="addStudentButton" type="button">
+                + Add Student
+            </button>
+        </section>
+
+        <!-- Students Table -->
+        <section class="table-wrap">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Student ID</th>
+                        <th>Course</th>
+                        <th>Year</th>
+                        <th>Profile</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable"></tbody>
+            </table>
+
+            <div class="empty-state" id="emptyState" hidden>
+                No students found. Try a different search.
+            </div>
+        </section>
+
+        <!-- Add/Edit Student Form -->
+        <div class="two-col">
+
+            <section class="form-panel" id="studentFormPanel">
+                <span class="wire-label">Student Management</span>
+                <h3 id="formHeading">Add New Student</h3>
+
+                <form id="studentForm">
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label for="studentName">Full Name *</label>
+                            <input class="input" id="studentName"
+                                   placeholder="Enter full name" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="studentId">Student ID *</label>
+                            <input class="input" id="studentId"
+                                   placeholder="NB-2026-000" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="studentEmail">Email Address *</label>
+                            <input class="input" id="studentEmail"
+                                   type="email"
+                                   placeholder="student@example.com" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="studentCourse">Course *</label>
+                            <select class="select" id="studentCourse" required>
+                                <option value="">Select course</option>
+                                <option value="B.Tech CSE">B.Tech CSE</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="B.Tech AIML">B.Tech AIML</option>
+                                <option value="BCA">BCA</option>
+                                <option value="B.Tech IT">B.Tech IT</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="studentYear">Year *</label>
+                            <select class="select" id="studentYear" required>
+                                <option value="">Select year</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="studentProfile">Profile Status</label>
+                            <select class="select" id="studentProfile">
+                                <option value="Complete">Complete</option>
+                                <option value="Needs info">Needs info</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="button secondary" id="cancelButton"
+                                type="button">
+                            Clear Form
+                        </button>
+
+                        <button class="button" type="submit">
+                            Save Student
+                        </button>
+                    </div>
+
+                    <div class="notice" id="formNotice" role="status"></div>
+                </form>
+            </section>
+
+            <!-- Delete Confirmation -->
+            <aside class="panel">
+                <span class="wire-label">Student Records</span>
+                <h3>Delete Confirmation</h3>
+
+                <p class="muted">
+                    Select Delete next to a student record to remove it from
+                    this demo. A confirmation message will appear before
+                    the record is removed.
+                </p>
+
+                <div class="confirm-box">
+                    <strong>⚠ Important</strong>
+                    <br>
+                    Check the student name and ID carefully before deleting
+                    a record.
+                </div>
+
+                <p class="muted">
+                    Student records on this page are demo data. Connect a
+                    backend and database to manage official campus records.
+                </p>
+            </aside>
+
+        </div>
+
+    </main>
+</div>
+
+<script>
+const students = [
+    {
+        name: "Ashish Kumar",
+        id: "NB-2026-041",
+        email: "ashish.kumar@gmail.com",
+        course: "B.Tech CSE",
+        year: "3",
+        profile: "Complete"
+    },
+    {
+        name: "Aman Kumar",
+        id: "NB-2025-118",
+        email: "aman.kumar@gmail.com",
+        course: "Computer Science",
+        year: "4",
+        profile: "Complete"
+    },
+    {
+        name: "Ansh Kumar",
+        id: "NB-2027-209",
+        email: "ansh.kumar@gmail.com",
+        course: "B.Tech AIML",
+        year: "2",
+        profile: "Needs info"
+    }
+];
+
+let editingId = null;
+
+const studentTable = document.getElementById("studentTable");
+const studentForm = document.getElementById("studentForm");
+const searchInput = document.getElementById("searchInput");
+const courseFilter = document.getElementById("courseFilter");
+const emptyState = document.getElementById("emptyState");
+const formNotice = document.getElementById("formNotice");
+
+function makeCell(text) {
+    const cell = document.createElement("td");
+    cell.textContent = text;
+    return cell;
+}
+
+function renderStudents() {
+    const query = searchInput.value.trim().toLowerCase();
+    const course = courseFilter.value;
+
+    const filtered = students.filter(student => {
+        const searchText =
+            `${student.name} ${student.id} ${student.email} ${student.course}`
+            .toLowerCase();
+
+        return searchText.includes(query) &&
+            (course === "All" || student.course === course);
+    });
+
+    studentTable.replaceChildren();
+
+    filtered.forEach(student => {
+        const row = document.createElement("tr");
+
+        const studentCell = document.createElement("td");
+
+        const name = document.createElement("div");
+        name.className = "student-name";
+        name.textContent = student.name;
+
+        const email = document.createElement("div");
+        email.className = "line-meta";
+        email.textContent = student.email;
+
+        studentCell.append(name, email);
+
+        const idCell = makeCell(student.id);
+        idCell.classList.add("student-id");
+
+        const courseCell = makeCell(student.course);
+        const yearCell = makeCell(student.year + " Year");
+
+        const profileCell = document.createElement("td");
+        const tag = document.createElement("span");
+        tag.className = student.profile === "Complete"
+            ? "tag green"
+            : "tag";
+        tag.textContent = student.profile;
+        profileCell.appendChild(tag);
+
+        const actionCell = document.createElement("td");
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "icon-box";
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click", () => editStudent(student.id));
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "icon-box delete";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => deleteStudent(student.id));
+
+        actions.append(editButton, deleteButton);
+        actionCell.appendChild(actions);
+
+        row.append(
+            studentCell,
+            idCell,
+            courseCell,
+            yearCell,
+            profileCell,
+            actionCell
+        );
+
+        studentTable.appendChild(row);
+    });
+
+    emptyState.hidden = filtered.length > 0;
+    updateStats();
+}
+
+function updateStats() {
+    document.getElementById("totalStudents").textContent = students.length;
+
+    document.getElementById("completeStudents").textContent =
+        students.filter(s => s.profile === "Complete").length;
+
+    document.getElementById("pendingStudents").textContent =
+        students.filter(s => s.profile === "Needs info").length;
+}
+
+function getFormValues() {
+    return {
+        name: document.getElementById("studentName").value.trim(),
+        id: document.getElementById("studentId").value.trim(),
+        email: document.getElementById("studentEmail").value.trim(),
+        course: document.getElementById("studentCourse").value,
+        year: document.getElementById("studentYear").value,
+        profile: document.getElementById("studentProfile").value
+    };
+}
+
+function editStudent(id) {
+    const student = students.find(s => s.id === id);
+    if (!student) return;
+
+    editingId = id;
+
+    document.getElementById("studentName").value = student.name;
+    document.getElementById("studentId").value = student.id;
+    document.getElementById("studentEmail").value = student.email;
+    document.getElementById("studentCourse").value = student.course;
+    document.getElementById("studentYear").value = student.year;
+    document.getElementById("studentProfile").value = student.profile;
+    document.getElementById("formHeading").textContent = "Edit Student";
+
+    formNotice.classList.remove("show");
+
+    document.getElementById("studentFormPanel").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+function deleteStudent(id) {
+    const student = students.find(s => s.id === id);
+    if (!student) return;
+
+    const confirmed = confirm(
+        `Are you sure you want to delete ${student.name} (${student.id})?`
+    );
+
+    if (!confirmed) return;
+
+    const index = students.findIndex(s => s.id === id);
+    students.splice(index, 1);
+
+    if (editingId === id) clearForm();
+
+    renderStudents();
+}
+
+function clearForm() {
+    studentForm.reset();
+    editingId = null;
+    document.getElementById("formHeading").textContent = "Add New Student";
+    formNotice.classList.remove("show");
+}
+
+document.getElementById("addStudentButton").addEventListener("click", () => {
+    clearForm();
+
+    document.getElementById("studentFormPanel").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+    document.getElementById("studentName").focus();
+});
+
+document.getElementById("cancelButton").addEventListener("click", clearForm);
+
+studentForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const student = getFormValues();
+
+    if (editingId === null) {
+        const duplicateId = students.some(s =>
+            s.id.toLowerCase() === student.id.toLowerCase()
+        );
+
+        if (duplicateId) {
+            formNotice.textContent = "This Student ID already exists.";
+            formNotice.classList.add("show");
+            return;
+        }
+
+        students.push(student);
+
+        formNotice.textContent =
+            "Student added successfully in this demo.";
+    } else {
+        const duplicateId = students.some(s =>
+            s.id.toLowerCase() === student.id.toLowerCase() &&
+            s.id !== editingId
+        );
+
+        if (duplicateId) {
+            formNotice.textContent = "This Student ID already exists.";
+            formNotice.classList.add("show");
+            return;
+        }
+
+        const index = students.findIndex(s => s.id === editingId);
+
+        if (index !== -1) {
+            students[index] = student;
+        }
+
+        formNotice.textContent =
+            "Student details updated successfully in this demo.";
+    }
+
+    formNotice.classList.add("show");
+    editingId = null;
+
+    studentForm.reset();
+    document.getElementById("formHeading").textContent = "Add New Student";
+
+    renderStudents();
+});
+
+searchInput.addEventListener("input", renderStudents);
+courseFilter.addEventListener("change", renderStudents);
+
+renderStudents();
+</script>
+
+</body>
+</html>

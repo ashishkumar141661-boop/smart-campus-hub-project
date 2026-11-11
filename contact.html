@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Campus - Smart Campus Hub</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #9e314a;
+            color: #1e293b;
+        }
+
+        .page {
+            padding: 25px;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 90vh;
+            max-width: 1400px;
+            margin: auto;
+            background: #e7e5e5;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(30, 64, 175, 0.12);
+        }
+
+        .side {
+            width: 245px;
+            flex-shrink: 0;
+            background: linear-gradient(180deg, #102c68, #1d4ed8);
+            color: rgb(236, 232, 232);
+            padding: 28px 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 38px;
+        }
+
+        .brand-mark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            background: #960c0c;
+            color: #1d4ed8;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .brand-copy {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-copy small {
+            display: block;
+            margin-top: 5px;
+            color: #afbbca;
+            font-size: 10px;
+        }
+
+        .side-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .side-nav a {
+            color: #dfe2e6;
+            text-decoration: none;
+            padding: 13px 15px;
+            border-radius: 9px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            background: #e9e1e5;
+            color: #073107;
+            font-weight: bold;
+        }
+
+        .workspace {
+            flex: 1;
+            min-width: 0;
+            padding: 35px;
+        }
+
+        .workspace-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .crumb {
+            color: #011633;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #053080;
+            font-size: 30px;
+        }
+
+        h3 {
+            color: #001438;
+            font-size: 21px;
+            margin: 15px 0 10px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #330212;
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            border: none;
+            background: #2563eb;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #173b80;
+            transform: translateY(-1px);
+        }
+
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .form-panel,
+        .panel {
+            background: #ffffff;
+            border: 1px solid #dbeafe;
+            border-radius: 16px;
+            padding: 26px;
+            box-shadow: 0 5px 18px rgba(30, 64, 175, 0.06);
+        }
+
+        .wire-label {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 19px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            color: #334155;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .input,
+        .textarea,
+        .select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            background: #f8fbff;
+            color: #334155;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input:focus,
+        .textarea:focus,
+        .select:focus {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+        .textarea {
+            min-height: 125px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            margin-top: 22px;
+        }
+
+        .line-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 22px;
+        }
+
+        .line-item {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 16px;
+            background: #f8fbff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+
+        .line-item strong {
+            color: #1e3a8a;
+            font-size: 14px;
+        }
+
+        .line-meta {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 7px;
+            overflow-wrap: anywhere;
+        }
+
+        .tag {
+            padding: 6px 9px;
+            border-radius: 20px;
+            color: #1d4ed8;
+            background: #dbeafe;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .tag.green {
+            color: #15803d;
+            background: #dcfce7;
+        }
+
+        .help-note {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin-top: 22px;
+            border-radius: 8px;
+            color: #475569;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        #formStatus {
+            margin-top: 15px;
+            color: #15803d;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 900px) {
+            .detail-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .side {
+                width: 210px;
+            }
+
+            .workspace {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 8px;
+            }
+
+            .app-shell {
+                flex-direction: column;
+            }
+
+            .side {
+                width: 100%;
+            }
+
+            .side-nav {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .workspace {
+                padding: 20px 14px;
+            }
+
+            .workspace-top {
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .form-panel,
+            .panel {
+                padding: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="app-shell">
+
+            <aside class="side">
+
+                <div class="brand">
+                    <span class="brand-mark">SC</span>
+                    <span class="brand-copy">
+                        SMART CAMPUS
+                        <small>CAMPUS HUB</small>
+                    </span>
+                </div>
+
+                <nav class="side-nav">
+                    <a href="student-dashboard.html">Overview</a>
+                    <a href="attendance.html">Attendance</a>
+                    <a href="timetable.html">Timetable</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="assignments.html">Assignments</a>
+                    <a href="events.html">Events</a>
+                    <a href="profile.html">My profile</a>
+                    <a href="contact.html" class="active">Contact</a>
+                </nav>
+
+            </aside>
+
+            <main class="workspace">
+
+                <div class="workspace-top">
+                    <div>
+                        <div class="crumb">Student / Contact</div>
+                        <h1>Contact Campus</h1>
+                    </div>
+
+                    <div class="actions">
+                        <span class="avatar">AK</span>
+                    </div>
+                </div>
+
+                <div class="detail-layout">
+
+                    <section class="form-panel">
+
+                        <span class="wire-label">✉ Student Support</span>
+
+                        <h3>How can we help?</h3>
+
+                        <p class="muted">
+                            Have a question or need assistance?
+                            Fill out the form below and our campus team
+                            will help you.
+                        </p>
+
+                        <form id="contactForm">
+
+                            <div class="form-grid">
+
+                                <div class="field">
+                                    <label for="name">Your Name</label>
+                                    <input
+                                        class="input"
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value="Ashish Kumar"
+                                        required
+                                        placeholder="Enter your name">
+                                </div>
+
+                                <div class="field">
+                                    <label for="email">Email Address</label>
+                                    <input
+                                        class="input"
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value="ashish.kumar141661@marwadiuniversity.ac.in"
+                                        required
+                                        placeholder="Enter your email">
+                                </div>
+
+                                <div class="field full">
+                                    <label for="category">Query Category</label>
+                                    <select
+                                        class="select"
+                                        id="category"
+                                        name="category"
+                                        required>
+                                        <option value="">Select your query</option>
+                                        <option>Attendance</option>
+                                        <option>Timetable</option>
+                                        <option>Notes and Assignments</option>
+                                        <option>Technical Support</option>
+                                        <option>Student Services</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="field full">
+                                    <label for="subject">Subject</label>
+                                    <input
+                                        class="input"
+                                        type="text"
+                                        id="subject"
+                                        name="subject"
+                                        value="Request for student support"
+                                        required
+                                        placeholder="Enter the subject">
+                                </div>
+
+                                <div class="field full">
+                                    <label for="message">Your Message</label>
+                                    <textarea
+                                        class="textarea"
+                                        id="message"
+                                        name="message"
+                                        required
+                                        placeholder="Write your message here...">Hello Campus Support Team,
+
+I need assistance regarding my student portal. Please guide me with the required information.
+
+Thank you.</textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="button">
+                                    Send Message →
+                                </button>
+                            </div>
+
+                            <p id="formStatus" role="status"></p>
+
+                        </form>
+
+                    </section>
+
+                    <aside class="panel">
+
+                        <span class="wire-label">☎ Campus Help Desk</span>
+
+                        <h3>We're here to help!</h3>
+
+                        <p class="muted">
+                            Choose the right support team for your query.
+                        </p>
+
+                        <div class="line-list">
+
+                            <div class="line-item">
+                                <div>
+                                    <strong>Student Services</strong>
+                                    <div class="line-meta">
+                                        studentservices@marwadiuniversity.ac.in
+                                    </div>
+                                </div>
+                                <span class="tag">General</span>
+                            </div>
+
+                            <div class="line-item">
+                                <div>
+                                    <strong>IT Help Desk</strong>
+                                    <div class="line-meta">
+                                        helpdesk@marwadiuniversity.ac.in
+                                    </div>
+                                </div>
+                                <span class="tag">Technical</span>
+                            </div>
+
+                            <div class="line-item">
+                                <div>
+                                    <strong>Student Wellbeing</strong>
+                                    <div class="line-meta">
+                                        Contact the university's official
+                                        student support office.
+                                    </div>
+                                </div>
+                                <span class="tag green">Care</span>
+                            </div>
+
+                        </div>
+
+                        <div class="help-note">
+                            <strong>📌 Support Tip</strong>
+                            <p>
+                                Please include your query category and
+                                a clear description of your problem so
+                                the support team can understand your request.
+                            </p>
+                        </div>
+
+                    </aside>
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const category = document.getElementById("category").value;
+            const subject = document.getElementById("subject").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            if (!name || !email || !category || !subject || !message) {
+                document.getElementById("formStatus").textContent =
+                    "Please fill in all the required fields.";
+                return;
+            }
+
+            document.getElementById("formStatus").textContent =
+                "Thank you, " + name +
+                "! Your form has been validated successfully.";
+
+            this.reset();
+        });
+    </script>
+
+</body>
+</html>

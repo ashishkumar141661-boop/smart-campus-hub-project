@@ -1,0 +1,762 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - Smart Campus Hub</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5ff;
+            color: #1e293b;
+        }
+
+        .page {
+            padding: 22px;
+        }
+
+        .app-shell {
+            display: flex;
+            max-width: 1450px;
+            min-height: 92vh;
+            margin: auto;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px #1e40af14;
+        }
+
+        .side {
+            width: 245px;
+            flex-shrink: 0;
+            padding: 26px 17px;
+            background: linear-gradient(180deg, #172554, #4338ca);
+            color: white;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 38px;
+        }
+
+        .brand-mark {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 47px;
+            height: 47px;
+            border-radius: 12px;
+            background: white;
+            color: #4338ca;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .brand-copy {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .brand-copy small {
+            display: block;
+            margin-top: 5px;
+            color: #c7d2fe;
+            font-size: 10px;
+        }
+
+        .side-section {
+            margin-bottom: 15px;
+            color: #c7d2fe;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .side-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .side-nav a {
+            padding: 13px 14px;
+            border-radius: 9px;
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            background: white;
+            color: #3730a3;
+            font-weight: bold;
+        }
+
+        .workspace {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        .workspace-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .crumb {
+            margin-bottom: 9px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 29px;
+        }
+
+        h3 {
+            color: #1e3a8a;
+            font-size: 19px;
+        }
+
+        .subtitle,
+        .muted {
+            margin-top: 8px;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-weight: bold;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 24px;
+        }
+
+        .stat {
+            padding: 21px;
+            background: white;
+            border: 1px solid #e0e7ff;
+            border-top: 4px solid #4f46e5;
+            border-radius: 13px;
+            box-shadow: 0 5px 18px #312e8108;
+        }
+
+        .stat:nth-child(2) {
+            border-top-color: #0891b2;
+        }
+
+        .stat:nth-child(3) {
+            border-top-color: #16a34a;
+        }
+
+        .stat:nth-child(4) {
+            border-top-color: #ea580c;
+        }
+
+        .stat small {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .number {
+            margin: 14px 0 10px;
+            color: #1e3a8a;
+            font-size: 29px;
+            font-weight: bold;
+        }
+
+        .trend {
+            color: #15803d;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .trend.warning {
+            color: #c2410c;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .panel {
+            padding: 23px;
+            background: white;
+            border: 1px solid #e0e7ff;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px #312e8108;
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 20px;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .tag.green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .tag.coral {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .chart {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            height: 180px;
+            padding: 15px 10px 0;
+            background: #f8faff;
+            border-radius: 12px;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .bars {
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            width: 100%;
+            height: 100%;
+            gap: 14px;
+        }
+
+        .bar {
+            width: 12%;
+            min-width: 22px;
+            max-width: 55px;
+            height: 90%;
+            border-radius: 7px 7px 0 0;
+            background: linear-gradient(180deg, #818cf8, #4338ca);
+        }
+
+        .bar.cyan {
+            background: linear-gradient(180deg, #67e8f9, #0891b2);
+        }
+
+        .bar.green {
+            background: linear-gradient(180deg, #86efac, #16a34a);
+        }
+
+        .bar.orange {
+            background: linear-gradient(180deg, #fdba74, #ea580c);
+        }
+
+        .bar.pink {
+            background: linear-gradient(180deg, #f9a8d4, #db2777);
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-around;
+            gap: 8px;
+            margin-top: 10px;
+            color: #64748b;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .line-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .line-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            color: #334155;
+            font-size: 13px;
+        }
+
+        .progress {
+            height: 10px;
+            margin: 12px 0;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress i {
+            display: block;
+            height: 100%;
+            width: 0;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #818cf8, #4338ca);
+        }
+
+        .progress.cyan i {
+            background: linear-gradient(90deg, #67e8f9, #0891b2);
+        }
+
+        .progress.green i {
+            background: linear-gradient(90deg, #86efac, #16a34a);
+        }
+
+        .progress.orange i {
+            background: linear-gradient(90deg, #fdba74, #ea580c);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            background: white;
+            border: 1px solid #e0e7ff;
+            border-radius: 14px;
+            box-shadow: 0 5px 18px #312e8108;
+        }
+
+        .table-heading {
+            padding: 22px 22px 15px;
+        }
+
+        .table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .table th {
+            padding: 15px 18px;
+            background: #eef2ff;
+            color: #3730a3;
+            font-size: 12px;
+        }
+
+        .table td {
+            padding: 17px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 12px;
+        }
+
+        .table tbody tr:hover {
+            background: #f8faff;
+        }
+
+        .table td strong {
+            color: #1e3a8a;
+        }
+
+        .attendance-note {
+            margin-top: 20px;
+            padding: 17px;
+            border-left: 4px solid #4f46e5;
+            border-radius: 9px;
+            background: #eef2ff;
+            color: #334155;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 1050px) {
+            .side {
+                width: 210px;
+            }
+
+            .workspace {
+                padding: 22px;
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 7px;
+            }
+
+            .app-shell {
+                flex-direction: column;
+            }
+
+            .side {
+                width: 100%;
+            }
+
+            .side-nav {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .workspace {
+                padding: 17px 12px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .stat-grid {
+                gap: 10px;
+            }
+
+            .stat {
+                padding: 15px;
+            }
+
+            .number {
+                font-size: 24px;
+            }
+
+            .panel {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="app-shell">
+
+            <aside class="side">
+
+                <div class="brand">
+                    <span class="brand-mark">SC</span>
+                    <span class="brand-copy">
+                        SMART CAMPUS
+                        <small>CAMPUS HUB</small>
+                    </span>
+                </div>
+
+                <div class="side-section">STUDENT WORKSPACE</div>
+
+                <nav class="side-nav">
+                    <a href="student-dashboard.html">Overview</a>
+                    <a href="attendance.html" class="active">Attendance</a>
+                    <a href="timetable.html">Timetable</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="assignments.html">Assignments</a>
+                    <a href="events.html">Events</a>
+                    <a href="profile.html">My profile</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+
+            </aside>
+
+            <main class="workspace">
+
+                <div class="workspace-top">
+                    <div>
+                        <div class="crumb">Student / Attendance</div>
+                        <h1>My Attendance</h1>
+                        <p class="subtitle">
+                            Marwadi University · B.Tech CSE · Semester III · Division EV1
+                        </p>
+                    </div>
+
+                    <div class="avatar">AK</div>
+                </div>
+
+                <div class="stat-grid">
+
+                    <div class="stat">
+                        <small>Overall Attendance</small>
+                        <div class="number" id="overall">90%</div>
+                        <span class="trend">✓ On Track</span>
+                    </div>
+
+                    <div class="stat">
+                        <small>Classes Attended</small>
+                        <div class="number" id="attended">54</div>
+                        <span class="trend">Out of 60 sessions</span>
+                    </div>
+
+                    <div class="stat">
+                        <small>Best Subject</small>
+                        <div class="number">96%</div>
+                        <span class="trend">Data Structures</span>
+                    </div>
+
+                    <div class="stat">
+                        <small>Needs Attention</small>
+                        <div class="number">78%</div>
+                        <span class="trend warning">DBMS</span>
+                    </div>
+
+                </div>
+
+                <div class="two-col">
+
+                    <section class="panel">
+
+                        <div class="panel-head">
+                            <h3>Attendance by Subject</h3>
+                            <span class="tag">Semester III</span>
+                        </div>
+
+                        <div class="chart">
+                            <div class="bars">
+                                <div class="bar" style="height:90%" title="Python Programming 90%"></div>
+                                <div class="bar cyan" style="height:78%" title="DBMS 78%"></div>
+                                <div class="bar green" style="height:96%" title="Data Structures 96%"></div>
+                                <div class="bar orange" style="height:88%" title="Java Programming 88%"></div>
+                                <div class="bar pink" style="height:93%" title="Web Technology 93%"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-labels">
+                            <span>Python</span>
+                            <span>DBMS</span>
+                            <span>DS</span>
+                            <span>Java</span>
+                            <span>Web Tech</span>
+                        </div>
+
+                        <div class="line-list">
+
+                            <div>
+                                <div class="line-item">
+                                    <span>Python Programming</span>
+                                    <strong>90%</strong>
+                                </div>
+                                <div class="progress">
+                                    <i style="width:90%"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="line-item">
+                                    <span>Database Management Systems</span>
+                                    <strong>78%</strong>
+                                </div>
+                                <div class="progress orange">
+                                    <i style="width:78%"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="line-item">
+                                    <span>Data Structures</span>
+                                    <strong>96%</strong>
+                                </div>
+                                <div class="progress green">
+                                    <i style="width:96%"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="line-item">
+                                    <span>Java Programming</span>
+                                    <strong>88%</strong>
+                                </div>
+                                <div class="progress cyan">
+                                    <i style="width:88%"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="line-item">
+                                    <span>Web Technology</span>
+                                    <strong>93%</strong>
+                                </div>
+                                <div class="progress">
+                                    <i style="width:93%"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                    <section class="panel">
+
+                        <div class="panel-head">
+                            <h3>Attendance Progress</h3>
+                            <span class="tag green">On Track</span>
+                        </div>
+
+                        <p class="subtitle">
+                            Your overall attendance compared with the
+                            target of 75%.
+                        </p>
+
+                        <div style="margin-top:25px">
+                            <div class="line-item">
+                                <span>Current Attendance</span>
+                                <strong>90%</strong>
+                            </div>
+
+                            <div class="progress" style="height:13px">
+                                <i style="width:90%"></i>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:25px">
+                            <div class="line-item">
+                                <span>Minimum Target</span>
+                                <strong>75%</strong>
+                            </div>
+
+                            <div class="progress green" style="height:13px">
+                                <i style="width:75%"></i>
+                            </div>
+                        </div>
+
+                        <div class="attendance-note">
+                            <strong>Attendance Tip</strong>
+                            <p style="margin-top:8px">
+                                Maintain regular attendance in every subject.
+                                Pay special attention to DBMS, which has the
+                                lowest sample attendance percentage.
+                            </p>
+                        </div>
+
+                        <div class="line-list">
+                            <div class="line-item">
+                                <span>Classes conducted</span>
+                                <strong>60</strong>
+                            </div>
+
+                            <div class="line-item">
+                                <span>Classes attended</span>
+                                <strong>54</strong>
+                            </div>
+
+                            <div class="line-item">
+                                <span>Classes missed</span>
+                                <strong>6</strong>
+                            </div>
+                        </div>
+
+                    </section>
+
+                </div>
+
+                <section class="table-wrap">
+
+                    <div class="table-heading">
+                        <h3>Subject-wise Attendance Record</h3>
+                        <p class="subtitle">
+                            Attendance summary for the current semester
+                        </p>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Attended</th>
+                                <th>Total Classes</th>
+                                <th>Percentage</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td><strong>Python Programming</strong></td>
+                                <td>18</td>
+                                <td>20</td>
+                                <td>90%</td>
+                                <td><span class="tag green">Good</span></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Database Management Systems</strong></td>
+                                <td>14</td>
+                                <td>18</td>
+                                <td>78%</td>
+                                <td><span class="tag coral">Improve</span></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Data Structures</strong></td>
+                                <td>24</td>
+                                <td>25</td>
+                                <td>96%</td>
+                                <td><span class="tag green">Excellent</span></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Java Programming</strong></td>
+                                <td>22</td>
+                                <td>25</td>
+                                <td>88%</td>
+                                <td><span class="tag green">Good</span></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Web Technology</strong></td>
+                                <td>25</td>
+                                <td>27</td>
+                                <td>93%</td>
+                                <td><span class="tag green">Excellent</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </section>
+
+                <p class="muted" style="margin-top:18px">
+                    Note: All attendance figures on this demo page are sample data.
+                    Replace them with your actual college attendance records.
+                </p>
+
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>
+```

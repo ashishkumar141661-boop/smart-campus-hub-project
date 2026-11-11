@@ -1,0 +1,1185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Notes | Smart Campus Hub</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #4f46e5;
+    --primary-light: #eef2ff;
+    --dark: #172554;
+    --sidebar: #111827;
+    --bg: #f5f7fb;
+    --white: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --green: #15803d;
+    --red: #dc2626;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.side {
+    width: 255px;
+    background: var(--sidebar);
+    color: white;
+    padding: 27px 17px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px 30px;
+}
+
+.brand-mark {
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, #818cf8, #4f46e5);
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.brand-copy {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: .6px;
+}
+
+.brand-copy small {
+    display: block;
+    color: #9ca3af;
+    font-size: 10px;
+    margin-top: 5px;
+    letter-spacing: 1.3px;
+}
+
+.side-section {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    padding: 10px 12px;
+}
+
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.side-nav a {
+    text-decoration: none;
+    color: #cbd5e1;
+    padding: 13px 14px;
+    border-radius: 9px;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.side-nav a:hover {
+    background: #263449;
+    color: white;
+}
+
+.side-nav a.active {
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 5px 15px #4f46e540;
+}
+
+.side-footer {
+    margin-top: auto;
+    padding: 20px 10px 0;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.side-footer span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* MAIN CONTENT */
+
+.workspace {
+    flex: 1;
+    min-width: 0;
+    padding: 30px 35px;
+}
+
+.workspace-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+}
+
+.crumb {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 29px;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: var(--primary);
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.profile-info strong {
+    display: block;
+    font-size: 13px;
+}
+
+.profile-info small {
+    display: block;
+    color: var(--muted);
+    margin-top: 5px;
+    font-size: 11px;
+}
+
+/* STATISTICS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 3px 12px #0f172a05;
+}
+
+.stat-icon {
+    width: 49px;
+    height: 49px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    flex-shrink: 0;
+}
+
+.purple { background: #eef2ff; }
+.blue { background: #e0f2fe; }
+.green { background: #dcfce7; }
+
+.stat-card p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 7px;
+}
+
+.stat-card h2 {
+    font-size: 26px;
+    color: var(--dark);
+}
+
+/* BUTTONS */
+
+.button {
+    border: none;
+    background: var(--primary);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.button:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+}
+
+.secondary {
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--line);
+}
+
+.secondary:hover {
+    background: #f1f5f9;
+}
+
+.delete-btn {
+    color: var(--red);
+    background: #fff1f2;
+}
+
+.delete-btn:hover {
+    background: #ffe4e6;
+}
+
+/* TABLE PANEL */
+
+.panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px #0f172a05;
+}
+
+.panel-header {
+    padding: 22px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid var(--line);
+}
+
+.panel-header h2 {
+    font-size: 18px;
+    color: var(--dark);
+}
+
+.panel-header p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.toolbar {
+    padding: 18px 24px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
+}
+
+.input, .select, .textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #dbe2ed;
+    background: white;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.input:focus, .select:focus, .textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px #4f46e51a;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 180px;
+}
+
+.filter-box {
+    width: 190px;
+}
+
+/* TABLE */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+thead {
+    background: #f8fafc;
+}
+
+th {
+    padding: 15px 22px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    color: #64748b;
+}
+
+td {
+    padding: 18px 22px;
+    font-size: 13px;
+    border-top: 1px solid #edf0f5;
+}
+
+tbody tr:hover {
+    background: #fafbff;
+}
+
+.note-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pdf-icon {
+    width: 40px;
+    height: 43px;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #dc2626;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.note-title strong {
+    color: #1e293b;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.line-meta {
+    color: #94a3b8;
+    font-size: 11px;
+    white-space: normal;
+    max-width: 260px;
+}
+
+.subject {
+    display: inline-block;
+    padding: 6px 10px;
+    background: #eef2ff;
+    color: #4338ca;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.file-name {
+    color: #475569;
+    font-size: 12px;
+}
+
+.row-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.small-btn {
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: white;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.small-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.small-btn.remove:hover {
+    background: #fff1f2;
+    color: var(--red);
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 35px;
+    display: none;
+    font-size: 13px;
+}
+
+/* FORM */
+
+.form-panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 3px 12px #0f172a05;
+    scroll-margin-top: 20px;
+}
+
+.wire-label {
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.form-panel h2 {
+    margin-top: 17px;
+    margin-bottom: 8px;
+    color: var(--dark);
+    font-size: 21px;
+}
+
+.form-description {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.file-input {
+    padding: 10px;
+    background: #f8fafc;
+}
+
+.file-help {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+.footer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 11px;
+    padding: 24px 0 5px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .side {
+        width: 210px;
+    }
+
+    .workspace {
+        padding: 25px 20px;
+    }
+
+    .stats {
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 700px) {
+    .app-shell {
+        flex-direction: column;
+    }
+
+    .side {
+        width: 100%;
+        padding: 16px;
+    }
+
+    .brand {
+        padding-bottom: 16px;
+    }
+
+    .side-section, .side-footer {
+        display: none;
+    }
+
+    .side-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+
+    .side-nav a {
+        white-space: nowrap;
+        padding: 11px 13px;
+        font-size: 12px;
+    }
+
+    .workspace {
+        padding: 22px 14px;
+    }
+
+    .workspace-top {
+        align-items: flex-start;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 17px;
+    }
+
+    .panel-header {
+        padding: 18px;
+    }
+
+    .toolbar {
+        padding: 15px;
+    }
+
+    .filter-box {
+        width: 100%;
+    }
+
+    .form-panel {
+        padding: 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="side">
+        <div class="brand">
+            <span class="brand-mark">SC</span>
+            <span class="brand-copy">
+                SMART CAMPUS
+                <small>CAMPUS HUB</small>
+            </span>
+        </div>
+
+        <div class="side-section">Admin Workspace</div>
+
+        <nav class="side-nav">
+            <a href="admin-dashboard.html">▦ &nbsp; Overview</a>
+            <a href="../clientside/students.html">♙ &nbsp; Students</a>
+            <a href="admin-attendance.html">✓ &nbsp; Attendance</a>
+            <a href="admin-timetable.html">▤ &nbsp; Timetable</a>
+            <a href="admin-notes.html" class="active">▧ &nbsp; Notes</a>
+            <a href="admin-assignments.html">✎ &nbsp; Assignments</a>
+            <a href="admin-events.html">▣ &nbsp; Events</a>
+            <a href="../clientside/messages.html">✉ &nbsp; Messages</a>
+        </nav>
+
+        <div class="side-footer">
+            Smart Campus Hub
+            <br>
+            <span>Learning made simple.</span>
+        </div>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="workspace">
+
+        <div class="workspace-top">
+            <div>
+                <div class="crumb">Admin / Learning Resources / Notes</div>
+                <h1>Manage Notes</h1>
+                <p class="subtitle">
+                    Organize, upload and manage student study materials.
+                </p>
+            </div>
+
+            <div class="profile">
+                <div class="avatar">AK</div>
+                <div class="profile-info">
+                    <strong>Admin Ashish</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATISTICS -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon purple">📚</div>
+                <div>
+                    <p>Total Notes</p>
+                    <h2 id="totalNotes">3</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon blue">📖</div>
+                <div>
+                    <p>Total Subjects</p>
+                    <h2 id="totalSubjects">3</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">📄</div>
+                <div>
+                    <p>PDF Attachments</p>
+                    <h2 id="totalFiles">3</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTES TABLE -->
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Study Materials</h2>
+                    <p>Manage notes uploaded for different subjects.</p>
+                </div>
+
+                <button class="button" onclick="newNote()">
+                    + Add Note
+                </button>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <input
+                        class="input"
+                        id="searchInput"
+                        type="search"
+                        placeholder="🔍 Search by title, subject or description..."
+                    >
+                </div>
+
+                <div class="filter-box">
+                    <select class="select" id="subjectFilter">
+                        <option value="">All Subjects</option>
+                        <option value="HCI">HCI</option>
+                        <option value="Database Systems">Database Systems</option>
+                        <option value="Data Structures">Data Structures</option>
+                        <option value="Web Technology">Web Technology</option>
+                        <option value="Java Programming">Java Programming</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Note Details</th>
+                            <th>Subject</th>
+                            <th>Last Updated</th>
+                            <th>Attachment</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="notesBody"></tbody>
+                </table>
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                No notes found. Try another search or add a new note.
+            </div>
+        </section>
+
+        <!-- ADD / EDIT FORM -->
+        <section class="form-panel" id="noteFormPanel">
+            <span class="wire-label">Content Editor</span>
+
+            <h2 id="formHeading">Add a New Note</h2>
+            <p class="form-description">
+                Enter the study material details below.
+            </p>
+
+            <form id="noteForm">
+                <input type="hidden" id="noteId">
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="noteTitle">Note Title *</label>
+                        <input
+                            class="input"
+                            id="noteTitle"
+                            type="text"
+                            placeholder="e.g. Introduction to DBMS"
+                            maxlength="120"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="noteSubject">Subject *</label>
+                        <select class="select" id="noteSubject" required>
+                            <option value="">Select Subject</option>
+                            <option>HCI</option>
+                            <option>Database Systems</option>
+                            <option>Data Structures</option>
+                            <option>Web Technology</option>
+                            <option>Java Programming</option>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label for="noteDescription">Description *</label>
+                        <textarea
+                            class="textarea"
+                            id="noteDescription"
+                            placeholder="Write a short summary of this note..."
+                            maxlength="1000"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="field full">
+                        <label for="noteFile">Upload PDF File</label>
+                        <input
+                            class="input file-input"
+                            id="noteFile"
+                            type="file"
+                            accept=".pdf,application/pdf"
+                        >
+                        <p class="file-help" id="fileHelp">
+                            Select a PDF from your computer. Leave empty when
+                            editing to keep the existing attachment.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button
+                        type="button"
+                        class="button secondary"
+                        onclick="resetForm()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="button" id="saveButton">
+                        Save Note
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <div class="footer">
+            © 2026 Smart Campus Hub · Admin Dashboard
+        </div>
+
+    </main>
+</div>
+
+<script>
+const STORAGE_KEY = "smartCampusNotesV1";
+
+const defaultNotes = [
+    {
+        id: 1,
+        title: "Usability Heuristics",
+        subject: "HCI",
+        description: "Ten principles for interface evaluation and user-friendly design.",
+        fileName: "heuristics.pdf",
+        fileData: "",
+        updated: "Today, 10:22 AM"
+    },
+    {
+        id: 2,
+        title: "Normalization Recap",
+        subject: "Database Systems",
+        description: "Database normalization, functional dependencies and examples.",
+        fileName: "normalization.pdf",
+        fileData: "",
+        updated: "Yesterday"
+    },
+    {
+        id: 3,
+        title: "Linked List Fundamentals",
+        subject: "Data Structures",
+        description: "Singly linked lists, insertion, deletion and traversal operations.",
+        fileName: "linked-list.pdf",
+        fileData: "",
+        updated: "14 Oct 2026"
+    }
+];
+
+let notes = loadNotes();
+
+function loadNotes() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved === null ? defaultNotes : JSON.parse(saved);
+    } catch (error) {
+        return defaultNotes.map(note => ({ ...note }));
+    }
+}
+
+function saveToStorage() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+        return true;
+    } catch (error) {
+        alert("Browser storage is full. Try using a smaller PDF file.");
+        return false;
+    }
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function updateStats() {
+    document.getElementById("totalNotes").textContent = notes.length;
+
+    document.getElementById("totalSubjects").textContent =
+        new Set(notes.map(note => note.subject)).size;
+
+    document.getElementById("totalFiles").textContent =
+        notes.filter(note => note.fileName).length;
+}
+
+function renderNotes() {
+    const query = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
+    const subject = document.getElementById("subjectFilter").value;
+
+    const filtered = notes.filter(note => {
+        const matchesSearch = [
+            note.title,
+            note.subject,
+            note.description,
+            note.fileName
+        ].some(value => String(value || "").toLowerCase().includes(query));
+
+        const matchesSubject = !subject || note.subject === subject;
+
+        return matchesSearch && matchesSubject;
+    });
+
+    const body = document.getElementById("notesBody");
+
+    body.innerHTML = filtered.map(note => `
+        <tr>
+            <td>
+                <div class="note-title">
+                    <div class="pdf-icon">PDF</div>
+                    <div>
+                        <strong>${escapeHTML(note.title)}</strong>
+                        <div class="line-meta">
+                            ${escapeHTML(note.description)}
+                        </div>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <span class="subject">${escapeHTML(note.subject)}</span>
+            </td>
+
+            <td>${escapeHTML(note.updated)}</td>
+
+            <td>
+                ${
+                    note.fileName
+                    ? `<span class="file-name">📎 ${escapeHTML(note.fileName)}</span>`
+                    : `<span class="line-meta">No attachment</span>`
+                }
+            </td>
+
+            <td>
+                <div class="row-actions">
+                    ${
+                        note.fileData
+                        ? `<button class="small-btn"
+                            onclick="downloadNote(${note.id})">View PDF</button>`
+                        : ""
+                    }
+                    <button class="small-btn"
+                        onclick="editNote(${note.id})">Edit</button>
+                    <button class="small-btn remove"
+                        onclick="deleteNote(${note.id})">Delete</button>
+                </div>
+            </td>
+        </tr>
+    `).join("");
+
+    document.getElementById("emptyState").style.display =
+        filtered.length ? "none" : "block";
+
+    updateStats();
+}
+
+function newNote() {
+    resetForm();
+
+    document.getElementById("formHeading").textContent = "Add a New Note";
+
+    document.getElementById("noteFormPanel").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+    document.getElementById("noteTitle").focus();
+}
+
+function resetForm() {
+    document.getElementById("noteForm").reset();
+    document.getElementById("noteId").value = "";
+    document.getElementById("formHeading").textContent = "Add a New Note";
+    document.getElementById("saveButton").textContent = "Save Note";
+    document.getElementById("fileHelp").textContent =
+        "Select a PDF from your computer. Leave empty when editing to keep the existing attachment.";
+}
+
+function editNote(id) {
+    const note = notes.find(item => item.id === id);
+    if (!note) return;
+
+    document.getElementById("noteId").value = note.id;
+    document.getElementById("noteTitle").value = note.title;
+    document.getElementById("noteSubject").value = note.subject;
+    document.getElementById("noteDescription").value = note.description;
+
+    document.getElementById("formHeading").textContent = "Edit Note";
+    document.getElementById("saveButton").textContent = "Update Note";
+
+    document.getElementById("fileHelp").textContent =
+        note.fileName
+        ? "Current file: " + note.fileName +
+          ". Choose a new PDF to replace it, or leave empty to keep it."
+        : "No attachment currently. Choose a PDF if needed.";
+
+    document.getElementById("noteFormPanel").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+function deleteNote(id) {
+    const note = notes.find(item => item.id === id);
+    if (!note) return;
+
+    if (!confirm('Delete "' + note.title + '"?')) return;
+
+    const previousNotes = notes;
+    notes = notes.filter(item => item.id !== id);
+
+    if (!saveToStorage()) {
+        notes = previousNotes;
+        return;
+    }
+
+    renderNotes();
+    resetForm();
+}
+
+function downloadNote(id) {
+    const note = notes.find(item => item.id === id);
+    if (!note || !note.fileData) return;
+
+    const link = document.createElement("a");
+    link.href = note.fileData;
+    link.download = note.fileName || "study-note.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+}
+
+document.getElementById("noteForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const idValue = document.getElementById("noteId").value;
+    const existing = idValue
+        ? notes.find(note => note.id === Number(idValue))
+        : null;
+
+    const fileInput = document.getElementById("noteFile");
+    const file = fileInput.files[0];
+
+    if (file && file.type !== "application/pdf" &&
+        !file.name.toLowerCase().endsWith(".pdf")) {
+        alert("Please select a PDF file.");
+        return;
+    }
+
+    if (file && file.size > 1024 * 1024) {
+        alert("For this local demo, please select a PDF smaller than 1 MB.");
+        return;
+    }
+
+    let fileData = existing ? existing.fileData : "";
+    let fileName = existing ? existing.fileName : "";
+
+    if (file) {
+        try {
+            fileData = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(new Error("File could not be read."));
+                reader.readAsDataURL(file);
+            });
+
+            fileName = file.name;
+        } catch (error) {
+            alert("Unable to read the selected PDF.");
+            return;
+        }
+    }
+
+    const note = {
+        id: existing ? existing.id : Date.now(),
+        title: document.getElementById("noteTitle").value.trim(),
+        subject: document.getElementById("noteSubject").value,
+        description: document.getElementById("noteDescription").value.trim(),
+        fileName,
+        fileData,
+        updated: new Date().toLocaleString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        })
+    };
+
+    if (!note.title || !note.subject || !note.description) {
+        alert("Please complete all required fields.");
+        return;
+    }
+
+    const previousNotes = notes;
+
+    if (existing) {
+        notes = notes.map(item => item.id === existing.id ? note : item);
+    } else {
+        notes.unshift(note);
+    }
+
+    if (!saveToStorage()) {
+        notes = previousNotes;
+        return;
+    }
+
+    renderNotes();
+    resetForm();
+
+    alert(existing ? "Note updated successfully!" : "Note added successfully!");
+});
+
+document.getElementById("searchInput").addEventListener("input", renderNotes);
+document.getElementById("subjectFilter").addEventListener("change", renderNotes);
+
+renderNotes();
+</script>
+
+</body>
+</html>

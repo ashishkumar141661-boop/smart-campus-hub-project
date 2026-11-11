@@ -1,0 +1,939 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Attendance - Smart Campus Hub</title>
+    <link rel="stylesheet" href="../clientside/styles.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .side {
+            width: 235px;
+            flex-shrink: 0;
+            background: #172554;
+            color: white;
+            padding: 24px 15px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .brand-mark {
+            background: #38bdf8;
+            color: #172554;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .brand-copy {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .brand-copy small {
+            display: block;
+            color: #93c5fd;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .side-section {
+            font-size: 11px;
+            color: #93c5fd;
+            margin: 15px 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .side-nav a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 13px;
+            margin-bottom: 7px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .side-footer {
+            margin-top: 30px;
+            color: #bfdbfe;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .workspace {
+            flex: 1;
+            min-width: 0;
+            padding: 28px;
+        }
+
+        .workspace-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .crumb {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #172554;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 9px;
+        }
+
+        .avatar {
+            width: 43px;
+            height: 43px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 19px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #2563eb;
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: #16a34a;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #f59e0b;
+        }
+
+        .stat-card:nth-child(4) {
+            border-left-color: #ef4444;
+        }
+
+        .stat-card p {
+            margin: 0 0 12px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .stat-card h2 {
+            margin: 0;
+            color: #172554;
+            font-size: 26px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 13px;
+            background: white;
+            padding: 17px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .input,
+        .select {
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: white;
+            color: #334155;
+            font-size: 13px;
+            outline: none;
+            width: 100%;
+        }
+
+        .input:focus,
+        .select:focus {
+            border-color: #2563eb;
+        }
+
+        .search {
+            width: 220px;
+        }
+
+        .button {
+            border: none;
+            padding: 11px 15px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .secondary:hover {
+            background: #dbeafe;
+        }
+
+        .danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .danger:hover {
+            background: #fecaca;
+        }
+
+        .table-wrap {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .table th {
+            background: #eff6ff;
+            color: #1e3a8a;
+            text-align: left;
+            font-size: 12px;
+            padding: 16px 13px;
+        }
+
+        .table td {
+            padding: 16px 13px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .line-meta {
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .orange {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .coral {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .progress {
+            width: 85px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin-top: 7px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #16a34a;
+            border-radius: 10px;
+        }
+
+        .form-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px #0f172a08;
+        }
+
+        .wire-label {
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-panel h3 {
+            margin: 10px 0 22px;
+            color: #172554;
+            font-size: 21px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .empty {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        @media (max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+            .app-shell {
+                flex-direction: column;
+            }
+
+            .side {
+                width: 100%;
+            }
+
+            .side-nav {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4px;
+            }
+
+            .workspace {
+                padding: 17px;
+            }
+
+            .workspace-top {
+                align-items: flex-start;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .toolbar .actions {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-shell">
+
+        <aside class="side">
+            <div class="brand">
+                <span class="brand-mark">SC</span>
+                <span class="brand-copy">
+                    SMART CAMPUS
+                    <small>CAMPUS HUB</small>
+                </span>
+            </div>
+
+            <div class="side-section">Admin Workspace</div>
+
+            <nav class="side-nav">
+                <a href="admin-dashboard.html">Overview</a>
+                <a href="../clientside/students.html">Students</a>
+                <a href="admin-attendance.html" class="active">Attendance</a>
+                <a href="admin-timetable.html">Timetable</a>
+                <a href="admin-notes.html">Notes</a>
+                <a href="admin-assignments.html">Assignments</a>
+                <a href="admin-events.html">Events</a>
+                <a href="../clientside/messages.html">Messages</a>
+            </nav>
+
+            <div class="side-footer">
+                Smart Campus Hub
+                <br>
+                Attendance Management
+            </div>
+        </aside>
+
+        <main class="workspace">
+
+            <div class="workspace-top">
+                <div>
+                    <div class="crumb">Admin / Attendance</div>
+                    <h1>Manage Attendance</h1>
+                    <p class="subtitle">
+                        Track student attendance and manage class records.
+                    </p>
+                </div>
+
+                <div class="actions">
+                    <span class="avatar">AD</span>
+                </div>
+            </div>
+
+            <section class="stats">
+                <div class="stat-card">
+                    <p>Total Students</p>
+                    <h2 id="totalStudents">5</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Average Attendance</p>
+                    <h2 id="averageAttendance">82.0%</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Good Attendance</p>
+                    <h2 id="goodAttendance">4</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Low Attendance</p>
+                    <h2 id="lowAttendance">1</h2>
+                </div>
+            </section>
+
+            <div class="toolbar">
+                <div class="actions">
+                    <input class="input search" id="searchStudent"
+                        placeholder="Search student name or ID...">
+
+                    <select class="select" id="subjectFilter" style="width:200px">
+                        <option value="all">All Subjects</option>
+                        <option>Human Computer Interaction</option>
+                        <option>Java Programming</option>
+                        <option>Database Systems</option>
+                        <option>Web Technology</option>
+                    </select>
+                </div>
+
+                <button class="button" onclick="newRecord()">
+                    + Add Attendance
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Subject</th>
+                            <th>Attended</th>
+                            <th>Total</th>
+                            <th>Percentage</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="attendanceList">
+
+                        <tr data-subject="Human Computer Interaction">
+                            <td>
+                                <strong>ASHISH KUMAR</strong>
+                                <div class="line-meta">MU2026-001</div>
+                            </td>
+                            <td>Human Computer Interaction</td>
+                            <td>18</td>
+                            <td>20</td>
+                            <td>
+                                <span class="tag green">90%</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width:90%"></div>
+                                </div>
+                            </td>
+                            <td>14 Oct 2026</td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-subject="Human Computer Interaction">
+                            <td>
+                                <strong>AMAN KUMAR</strong>
+                                <div class="line-meta">MU2026-002</div>
+                            </td>
+                            <td>Human Computer Interaction</td>
+                            <td>16</td>
+                            <td>20</td>
+                            <td>
+                                <span class="tag green">80%</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width:80%"></div>
+                                </div>
+                            </td>
+                            <td>14 Oct 2026</td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-subject="Java Programming">
+                            <td>
+                                <strong>ASHISH RAJ</strong>
+                                <div class="line-meta">MU2026-003</div>
+                            </td>
+                            <td>Java Programming</td>
+                            <td>17</td>
+                            <td>20</td>
+                            <td>
+                                <span class="tag green">85%</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width:85%"></div>
+                                </div>
+                            </td>
+                            <td>14 Oct 2026</td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-subject="Database Systems">
+                            <td>
+                                <strong>ADARSH RAJ</strong>
+                                <div class="line-meta">MU2026-004</div>
+                            </td>
+                            <td>Database Systems</td>
+                            <td>14</td>
+                            <td>20</td>
+                            <td>
+                                <span class="tag orange">70%</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width:70%;background:#f59e0b"></div>
+                                </div>
+                            </td>
+                            <td>14 Oct 2026</td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-subject="Web Technology">
+                            <td>
+                                <strong>ANSH PANDEY</strong>
+                                <div class="line-meta">MU2026-005</div>
+                            </td>
+                            <td>Web Technology</td>
+                            <td>12</td>
+                            <td>20</td>
+                            <td>
+                                <span class="tag coral">60%</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width:60%;background:#ef4444"></div>
+                                </div>
+                            </td>
+                            <td>14 Oct 2026</td>
+                            <td>
+                                <div class="actions">
+                                    <button class="button secondary edit-btn">Edit</button>
+                                    <button class="button danger delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="empty" id="emptyMessage">
+                    No attendance records found.
+                </div>
+            </div>
+
+            <section class="form-panel" id="attendanceForm">
+                <span class="wire-label">Attendance Management</span>
+                <h3 id="formTitle">Add Attendance Record</h3>
+
+                <form id="attendanceEditor">
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label for="studentName">Student Name</label>
+                            <input class="input" id="studentName" required
+                                placeholder="Enter student name">
+                        </div>
+
+                        <div class="field">
+                            <label for="studentId">Enrollment Number</label>
+                            <input class="input" id="studentId" required
+                                placeholder="MU2026-006">
+                        </div>
+
+                        <div class="field">
+                            <label for="subject">Subject</label>
+                            <select class="select" id="subject" required>
+                                <option value="">Select subject</option>
+                                <option>Human Computer Interaction</option>
+                                <option>Java Programming</option>
+                                <option>Database Systems</option>
+                                <option>Web Technology</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="attended">Attended Sessions</label>
+                            <input type="number" class="input" id="attended"
+                                min="0" required placeholder="18">
+                        </div>
+
+                        <div class="field">
+                            <label for="total">Total Sessions</label>
+                            <input type="number" class="input" id="total"
+                                min="1" required placeholder="20">
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="button" id="saveBtn">
+                            Save Attendance
+                        </button>
+                        <button type="button" class="button secondary"
+                            onclick="resetForm()">
+                            Clear Form
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const list = document.getElementById("attendanceList");
+        const form = document.getElementById("attendanceEditor");
+        const search = document.getElementById("searchStudent");
+        const filter = document.getElementById("subjectFilter");
+
+        let editingRow = null;
+
+        function newRecord() {
+            resetForm();
+            document.getElementById("attendanceForm").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+        function resetForm() {
+            form.reset();
+            editingRow = null;
+
+            document.getElementById("formTitle").textContent =
+                "Add Attendance Record";
+
+            document.getElementById("saveBtn").textContent =
+                "Save Attendance";
+        }
+
+        function getPercentage(row) {
+            const attended = Number(row.cells[2].textContent);
+            const total = Number(row.cells[3].textContent);
+
+            return total > 0 ? Math.round(attended / total * 100) : 0;
+        }
+
+        function updateStats() {
+            const rows = [...list.querySelectorAll("tr")];
+            const count = rows.length;
+
+            const percentages = rows.map(getPercentage);
+            const average = count
+                ? percentages.reduce((sum, value) => sum + value, 0) / count
+                : 0;
+
+            document.getElementById("totalStudents").textContent = count;
+
+            document.getElementById("averageAttendance").textContent =
+                average.toFixed(1) + "%";
+
+            document.getElementById("goodAttendance").textContent =
+                percentages.filter(value => value >= 75).length;
+
+            document.getElementById("lowAttendance").textContent =
+                percentages.filter(value => value < 75).length;
+        }
+
+        function filterRecords() {
+            const query = search.value.toLowerCase().trim();
+            const subject = filter.value;
+            let visible = 0;
+
+            [...list.querySelectorAll("tr")].forEach(row => {
+                const matchesText =
+                    row.innerText.toLowerCase().includes(query);
+
+                const matchesSubject =
+                    subject === "all" || row.dataset.subject === subject;
+
+                const show = matchesText && matchesSubject;
+                row.style.display = show ? "" : "none";
+
+                if (show) visible++;
+            });
+
+            document.getElementById("emptyMessage").style.display =
+                visible === 0 ? "block" : "none";
+        }
+
+        function addRowActions(row) {
+            row.querySelector(".edit-btn").addEventListener("click", () => {
+                editingRow = row;
+
+                document.getElementById("studentName").value =
+                    row.cells[0].querySelector("strong").textContent;
+
+                document.getElementById("studentId").value =
+                    row.cells[0].querySelector(".line-meta").textContent;
+
+                document.getElementById("subject").value =
+                    row.cells[1].textContent;
+
+                document.getElementById("attended").value =
+                    row.cells[2].textContent;
+
+                document.getElementById("total").value =
+                    row.cells[3].textContent;
+
+                document.getElementById("formTitle").textContent =
+                    "Edit Attendance Record";
+
+                document.getElementById("saveBtn").textContent =
+                    "Update Attendance";
+
+                document.getElementById("attendanceForm").scrollIntoView({
+                    behavior: "smooth"
+                });
+            });
+
+            row.querySelector(".delete-btn").addEventListener("click", () => {
+                if (confirm("Delete this attendance record?")) {
+                    if (editingRow === row) resetForm();
+
+                    row.remove();
+                    updateStats();
+                    filterRecords();
+                }
+            });
+        }
+
+        function renderAttendance(row, name, id, subject, attended, total) {
+            const percentage = Math.round(attended / total * 100);
+
+            let tagClass = "green";
+            let barColor = "#16a34a";
+
+            if (percentage < 75) {
+                tagClass = "coral";
+                barColor = "#ef4444";
+            } else if (percentage < 85) {
+                tagClass = "orange";
+                barColor = "#f59e0b";
+            }
+
+            row.dataset.subject = subject;
+
+            row.innerHTML = `
+                <td>
+                    <strong></strong>
+                    <div class="line-meta"></div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <span class="tag ${tagClass}">${percentage}%</span>
+                    <div class="progress">
+                        <div class="progress-bar"
+                            style="width:${percentage}%;background:${barColor}"></div>
+                    </div>
+                </td>
+                <td>${new Date().toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                })}</td>
+                <td>
+                    <div class="actions">
+                        <button class="button secondary edit-btn">Edit</button>
+                        <button class="button danger delete-btn">Delete</button>
+                    </div>
+                </td>
+            `;
+
+            row.cells[0].querySelector("strong").textContent =
+                name.toUpperCase();
+
+            row.cells[0].querySelector(".line-meta").textContent = id;
+            row.cells[1].textContent = subject;
+            row.cells[2].textContent = attended;
+            row.cells[3].textContent = total;
+
+            addRowActions(row);
+        }
+
+        [...list.querySelectorAll("tr")].forEach(row => {
+            addRowActions(row);
+        });
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById("studentName").value.trim();
+            const id = document.getElementById("studentId").value.trim();
+            const subject = document.getElementById("subject").value;
+            const attended = Number(document.getElementById("attended").value);
+            const total = Number(document.getElementById("total").value);
+
+            if (attended > total) {
+                alert("Attended sessions cannot exceed total sessions.");
+                return;
+            }
+
+            if (total < 1 || attended < 0) {
+                alert("Please enter valid attendance numbers.");
+                return;
+            }
+
+            const row = editingRow || document.createElement("tr");
+
+            renderAttendance(row, name, id, subject, attended, total);
+
+            if (!editingRow) {
+                list.appendChild(row);
+            }
+
+            resetForm();
+            updateStats();
+            filterRecords();
+
+            alert("Attendance saved successfully!");
+        });
+
+        search.addEventListener("input", filterRecords);
+        filter.addEventListener("change", filterRecords);
+
+        updateStats();
+    </script>
+
+</body>
+</html>

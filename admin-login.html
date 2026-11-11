@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Campus Hub - Admin Login</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #101b4b, #5145cd, #8b5cf6);
+}
+
+.login-layout {
+    display: flex;
+    width: 850px;
+    max-width: 100%;
+    min-height: 480px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px #10103c55;
+}
+
+.login-intro {
+    width: 50%;
+    padding: 40px 32px;
+    color: white;
+    background: linear-gradient(150deg, #172554, #4338ca, #7c3aed);
+}
+
+.brand {
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.brand-mark {
+    display: inline-block;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background: #fbbf24;
+    color: #172554;
+}
+
+.brand small {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-top: 4px;
+}
+
+.login-intro h1 {
+    font-size: 32px;
+    line-height: 1.3;
+    margin-top: 65px;
+}
+
+.login-intro p {
+    color: #e0e7ff;
+    line-height: 1.7;
+    margin-top: 15px;
+}
+
+.login-art {
+    margin-top: 35px;
+    height: 75px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #818cf8, #c4b5fd, #fbbf24);
+}
+
+.login-form {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    padding: 35px;
+}
+
+.form-panel {
+    width: 100%;
+}
+
+h2 {
+    color: #172554;
+    font-size: 28px;
+    margin-top: 22px;
+}
+
+.muted {
+    color: #64748b;
+    font-size: 14px;
+    margin: 10px 0 25px;
+}
+
+.field {
+    margin-bottom: 17px;
+}
+
+label {
+    display: block;
+    color: #334155;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    outline: none;
+    font-size: 13px;
+}
+
+.input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px #6366f122;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 14px;
+    border: 0;
+    border-radius: 9px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+    cursor: pointer;
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+.note {
+    font-size: 11px;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 18px;
+}
+
+@media(max-width: 650px) {
+    .login-layout {
+        flex-direction: column;
+    }
+
+    .login-intro,
+    .login-form {
+        width: 100%;
+    }
+
+    .login-intro {
+        padding: 28px;
+    }
+
+    .login-intro h1 {
+        margin-top: 30px;
+        font-size: 27px;
+    }
+
+    .login-art {
+        height: 35px;
+        margin-top: 20px;
+    }
+
+    .login-form {
+        padding: 28px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-layout">
+
+    <section class="login-intro">
+        <div class="brand">
+            <span class="brand-mark">SC</span>
+            SMART CAMPUS
+            <small>CAMPUS HUB</small>
+        </div>
+
+        <h1>Keep Campus<br>Moving Forward.</h1>
+
+        <p>
+            Manage students, learning resources, campus events
+            and everything that makes student life better.
+        </p>
+
+        <div class="login-art"></div>
+    </section>
+
+    <section class="login-form">
+        <div class="form-panel">
+
+            <h2>Admin Portal</h2>
+
+            <p class="muted">
+                Welcome back! Sign in to manage Smart Campus Hub.
+            </p>
+
+            <form id="loginForm" action="admin-dashboard.html">
+
+                <div class="field">
+                    <label for="username">Admin Username</label>
+
+                    <input
+                        class="input"
+                        id="username"
+                        name="username"
+                        type="text"
+                        value="ashish.kumar141661@marwadiuniversity.ac.in"
+                        placeholder="Enter your email"
+                        autocomplete="username"
+                    >
+
+                    <p id="usernameError" class="error"></p>
+                </div>
+
+                <div class="field">
+                    <label for="password">Password</label>
+
+                    <input
+                        class="input"
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        minlength="8"
+                        pattern="(?=.*[A-Za-z])(?=.*[0-9]).{8,}"
+                        title="Password must be at least 8 characters and contain at least one letter and one number."
+                        required
+                    >
+                    <p class="error" id="passwordError"></p>
+                </div>
+
+                <button class="button" type="submit">
+                    Enter Admin Portal →
+                </button>
+
+            </form>
+
+            <p class="note">
+                Need an admin account?
+                <a href="admin-signup.html">Sign up</a>
+            </p>
+
+            <p class="note">
+                © 2026 Smart Campus Hub | Admin Access Only
+            </p>
+
+        </div>
+    </section>
+
+</div>
+
+<script>
+const loginForm = document.getElementById("loginForm");
+const username = document.getElementById("username");
+const usernameError = document.getElementById("usernameError");
+const password = document.getElementById("password");
+const passwordError = document.getElementById("passwordError");
+
+function validateUsername() {
+    const email = username.value.trim();
+
+    const emailPattern =
+        /^[A-Za-z0-9._%+-]+@marwadiuniversity\.ac\.in$/;
+
+    if (email === "") {
+        usernameError.textContent = "Username is required.";
+        return false;
+    }
+
+    if (!emailPattern.test(email)) {
+        usernameError.textContent =
+            "Enter a valid Marwadi University email address.";
+        return false;
+    }
+
+    usernameError.textContent = "";
+    return true;
+}
+
+username.addEventListener("input", validateUsername);
+
+password.addEventListener("input", function() {
+    if (password.value === "" || password.validity.valid) {
+        passwordError.textContent = "";
+    } else {
+        passwordError.textContent =
+            "Password must be at least 8 characters and contain at least one letter and one number.";
+    }
+});
+
+loginForm.addEventListener("submit", function(event) {
+    if (!validateUsername() || !password.validity.valid) {
+        event.preventDefault();
+    }
+});
+</script>
+
+</body>
+</html>
